@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS.Cadastro", "MS.Cadastro\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Pedidos", "MS.Pedidos\MS.Pedidos.csproj", "{E14C25DB-F383-4040-AD7D-E42021CDA62B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Envios", "MS.Envios\MS.Envios.csproj", "{E192CFE8-C321-4FA2-9248-C0F93B35E601}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E14C25DB-F383-4040-AD7D-E42021CDA62B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E14C25DB-F383-4040-AD7D-E42021CDA62B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E14C25DB-F383-4040-AD7D-E42021CDA62B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
