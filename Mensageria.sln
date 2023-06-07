@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Pedidos", "MS.Pedidos\MS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Envios", "MS.Envios\MS.Envios.csproj", "{E192CFE8-C321-4FA2-9248-C0F93B35E601}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Pagamentos", "MS.Pagamentos\MS.Pagamentos.csproj", "{16269250-F555-46AB-96CB-4C334091DD11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E192CFE8-C321-4FA2-9248-C0F93B35E601}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16269250-F555-46AB-96CB-4C334091DD11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16269250-F555-46AB-96CB-4C334091DD11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16269250-F555-46AB-96CB-4C334091DD11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16269250-F555-46AB-96CB-4C334091DD11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
