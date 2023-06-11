@@ -33,10 +33,10 @@ namespace MS.Emails.Controllers
                 var codigo = await _service.CadastrarCodigoAsync(request);
 
                 var linkConfirmacao = _service.ObterUrlConfirmacaoAsync(url_base,codigo);
-                
 
+                await _service.EnviarEmailConfirmacaoAsync(request.Email, linkConfirmacao);
 
-                return Ok();
+                return Ok("Email enviado");
             }
             catch (Exception e)
             {
