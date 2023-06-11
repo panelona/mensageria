@@ -5,7 +5,8 @@ namespace MS.Emails.Interfaces
 {
     public interface ICodigoEmailService
     {
-        Task CadastrarCodigoAsync(EmailRequestDto request);
+        Task<string> CadastrarCodigoAsync(EmailRequestDto request);
+        string ObterUrlConfirmacaoAsync(string urlBase, string codigo);
         
     }
 }

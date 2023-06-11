@@ -8,7 +8,8 @@ namespace MS.Emails.Profiles
     {
         public CodigoEmailProfile()
         {
-            CreateMap<EmailRequestDto, CodigoEmail>();
+            CreateMap<EmailRequestDto, CodigoEmail>().ReverseMap();
+            CreateMap<EmailResponseDto, CodigoEmail>().ReverseMap();
         }
     }
 }

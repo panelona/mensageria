@@ -17,7 +17,7 @@ namespace MS.Emails.Services
             _mapper = mapper;
         }
 
-        public async Task CadastrarCodigoAsync(EmailRequestDto request)
+        public async Task<string> CadastrarCodigoAsync(EmailRequestDto request)
         {
 
             var entity = _mapper.Map<CodigoEmail>(request);
@@ -26,8 +26,17 @@ namespace MS.Emails.Services
             entity.Codigo = CreateRandomToken();
             entity.GeradoEm = DateTime.Now;
             await _repository.AddSync(entity);
+
+            var response = _mapper.Map<EmailResponseDto>(entity);
+
+            return response.Codigo;
         }
-       
+
+        public string ObterUrlConfirmacaoAsync(string urlBase, string codigo)
+        {
+            return $"{urlBase}/confirmaemail?token={codigo}";
+        }
+
 
         private string CreateRandomToken()
         {

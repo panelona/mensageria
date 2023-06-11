@@ -24,11 +24,17 @@ namespace MS.Emails.Controllers
         [Route("api/v1/email/gerar-codigo")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult GerarCodigo(EmailRequestDto request)
+        public async Task<IActionResult> GerarCodigo(EmailRequestDto request)
         {
+            var url_base = string.Format("{0}://{1}", Request.Scheme, Request.Host);
+
             try
             {
-                var emailEntity = _service.CadastrarCodigoAsync(request);
+                var codigo = await _service.CadastrarCodigoAsync(request);
+
+                var linkConfirmacao = _service.ObterUrlConfirmacaoAsync(url_base,codigo);
+                
+
 
                 return Ok();
             }
