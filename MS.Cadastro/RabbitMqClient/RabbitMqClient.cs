@@ -16,9 +16,13 @@ namespace MS.Cadastro.RabbitMqClient
             _configuration = configuration;
             _connection = new ConnectionFactory()
             {
-                HostName = _configuration["RabbitMqHost"],
-                Port = Int32.Parse(_configuration["RabbitMqPort"]), UserName = _configuration["RabbitMqUser"],
-                Password = _configuration["RabbitMqPassword"], VirtualHost = _configuration["RabbitMqVhost"] }.CreateConnection();
+                HostName = _configuration["MS_RABBITMQ_HOST"],
+                Port = int.Parse(_configuration["MS_RABBITMQ_PORT"]),
+                VirtualHost = _configuration["MS_RABBITMQ_VHOST"],
+                UserName = _configuration["MS_RABBITMQ_USER"],
+                Password = _configuration["MS_RABBITMQ_PASSWORD"]
+            }.CreateConnection();
+
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
         }
