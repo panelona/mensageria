@@ -1,4 +1,4 @@
-﻿using MS.Cadastro.Interfaces;
+﻿using MS.Cadastro.Interfaces.Services;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -11,7 +11,7 @@ namespace MS.Cadastro.RabbitMqClient
         private readonly string _nomeDaFila;
         private readonly IConnection _connection;
         private IModel _channel;
-        private IProcessaEvento _processaEvento;
+        private IProcessaEventoCadastro _processaEvento;
 
         public RabbitMqSubscriberCadastro(IConfiguration configuration)
         {

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MS.Cadastro.EmailService;
+using MS.Cadastro.Events;
 using MS.Cadastro.Interfaces.Repositories;
 using MS.Cadastro.Interfaces.Services;
 using MS.Cadastro.Profiles;
@@ -23,7 +24,9 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 #region build Rabbit
 builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
+builder.Services.AddSingleton<IProcessaEventoCadastro, ProcessaEventoCadastro>();
 builder.Services.AddHttpClient<IEmailServiceHttpClient, EmailServiceHttpClient>();
+builder.Services.AddHostedService<RabbitMqSubscriberCadastro>();
 #endregion
 
 #region Variáveis de ambiente

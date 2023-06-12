@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using MS.Cadastro.Contracts;
 using MS.Cadastro.Entity;
-using MS.Cadastro.Interfaces;
 using MS.Cadastro.Interfaces.Services;
 using System.Text.Json;
 
 namespace MS.Cadastro.Events
 {
-    public class ProcessaEventoCadastro : IProcessaEvento
+    public class ProcessaEventoCadastro : IProcessaEventoCadastro
     {
         private readonly IMapper _mapper;
         private readonly IServiceScopeFactory _scopeFactory;
