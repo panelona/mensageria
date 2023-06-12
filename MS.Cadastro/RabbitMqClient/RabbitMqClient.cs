@@ -29,7 +29,7 @@ namespace MS.Cadastro.RabbitMqClient
             var body = Encoding.UTF8.GetBytes(msg);
 
             _channel.BasicPublish(exchange: "trigger",
-                routingKey: "",
+                routingKey: "email",
                 basicProperties: null,
                 body: body
                 );
