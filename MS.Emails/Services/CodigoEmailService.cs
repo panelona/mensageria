@@ -95,6 +95,24 @@ namespace MS.Emails.Services
             }
         }
 
+        public async Task GerarCodigoConfirmacaoAsync(EmailRequestDto email)
+        {
+            if (email == null) throw new ArgumentNullException(nameof(email));
+            try
+            {
+                var codigo = await CadastrarCodigoAsync(email);
+
+                var linkConfirmacao = ObterUrlConfirmacaoAsync(_configuration["MS_EMAIL_URLBASE"], codigo);
+
+                await EnviarEmailConfirmacaoAsync(email.Email, linkConfirmacao);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
         private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(2));
