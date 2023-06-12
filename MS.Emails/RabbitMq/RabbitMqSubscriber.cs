@@ -14,9 +14,10 @@ namespace MS.Emails.RabbitMq
         private IProcessaEvento _processaEvento;
 
 
-        public RabbitMqSubscriber(IConfiguration configuration)
+        public RabbitMqSubscriber(IConfiguration configuration, IProcessaEvento processaEvento)
         {
             _configuration = configuration;
+            _processaEvento = processaEvento;
             _connection = new ConnectionFactory()
             {
                 HostName = _configuration["MS_RABBITMQ_HOST"],

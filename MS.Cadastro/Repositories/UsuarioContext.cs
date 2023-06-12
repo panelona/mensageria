@@ -7,6 +7,11 @@ namespace MS.Cadastro.Repositories
     {
         public DbSet<Usuario> Usuarios { get; set; }
         public UsuarioContext(DbContextOptions<UsuarioContext> options) : base(options) { }
-        
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Usuario>().HasIndex(prop => prop.Email).IsUnique();
+        }
+
     }
 }

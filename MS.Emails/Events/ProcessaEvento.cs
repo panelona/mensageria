@@ -22,7 +22,9 @@ namespace MS.Emails.Events
 
             var service = scope.ServiceProvider.GetRequiredService<ICodigoEmailService>();
 
-            var email = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
+            //var email = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
+
+            var email = _mapper.Map<EmailRequestDto>(mensagem);
 
             if (email == null) throw new ArgumentNullException(nameof(email));
 

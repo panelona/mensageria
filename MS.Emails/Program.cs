@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MS.Emails.Events;
 using MS.Emails.Interfaces;
 using MS.Emails.RabbitMq;
 using MS.Emails.Respositories;
@@ -23,6 +24,8 @@ builder.Services.AddScoped<ICodigoEmailRepository, CodigoRepository>();
 builder.Services.AddScoped<ICodigoEmailService, CodigoEmailService>();
 builder.Services.AddScoped<IRabbitMqClient, RabbitMqClient>();
 
+builder.Services.AddHostedService<RabbitMqSubscriber>();
+builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
 
 var app = builder.Build();
 
