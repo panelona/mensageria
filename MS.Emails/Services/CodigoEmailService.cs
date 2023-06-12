@@ -1,10 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography;
-using System.Xml.Linq;
 using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Ini;
 using MS.Emails.Entities;
 using MS.Emails.Interfaces;
 using MS.Emails.Respositories.Dto;
@@ -16,12 +13,13 @@ namespace MS.Emails.Services
         private readonly ICodigoEmailRepository _repository;
         private readonly IMapper _mapper;
         private IConfiguration _configuration;
-
-        public CodigoEmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration)
+        private IRabbitMqClient _rabbitMqClient;
+        public CodigoEmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration, IRabbitMqClient rabbitMqClient)
         {
             _repository = repository;
             _mapper = mapper;
             _configuration = configuration;
+            _rabbitMqClient = rabbitMqClient;
         }
 
         public async Task<string> CadastrarCodigoAsync(EmailRequestDto request)
@@ -119,7 +117,9 @@ namespace MS.Emails.Services
 
             var email = await _repository.GetByCodigoAsync(codigo);
             
-            await _repository.DeleteAsync(codigo);
+            //await _repository.DeleteAsync(codigo);
+
+            _rabbitMqClient.EnviaEmailConfirmado(email);
 
             return email;
         }

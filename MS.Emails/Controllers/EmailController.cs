@@ -1,10 +1,5 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MS.Emails.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using MS.Emails.Interfaces;
-using MS.Emails.Respositories.Dto;
 
 namespace MS.Emails.Controllers
 {
