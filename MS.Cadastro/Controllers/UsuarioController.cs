@@ -74,6 +74,27 @@ namespace MS.Cadastro.Controllers
             catch (Exception ex) { return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException); }
         }
 
+        [HttpPatch]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> Patch([FromBody] String email)
+        {
+            try
+            {
+                await _usuarioService.AlterarStatusAsync(email);
+                return Ok();
+            }
+            catch (ArgumentException exception)
+            { 
+                return BadRequest(exception.Message);
+            }
+            catch (Exception ex) 
+            { 
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.InnerException);
+            }
+        }
+
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
