@@ -41,7 +41,7 @@ namespace MS.Emails.Services
 
         public string ObterUrlConfirmacaoAsync(string urlBase, string codigo)
         {
-            return $"{urlBase}/confirmaemail?token={codigo}";
+            return $"{urlBase}/api/v1/email/confirmar-email?codigo={codigo}";
         }
 
         public async Task EnviarEmailConfirmacaoAsync(string email, string linkConfirmacao)
@@ -111,6 +111,17 @@ namespace MS.Emails.Services
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public async Task<string> ConfirmarEmailAsync(string codigo)
+        {
+            if (codigo == null) throw new ArgumentNullException(nameof(codigo));
+
+            var email = await _repository.GetByCodigoAsync(codigo);
+            
+            await _repository.DeleteAsync(codigo);
+
+            return email;
         }
 
         private string CreateRandomToken()
