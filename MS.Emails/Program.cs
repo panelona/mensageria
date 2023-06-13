@@ -15,14 +15,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
                                                                 
 var connectionString = builder.Configuration.GetValue<string>("MS_EMAIL_CONNSTRING");
-builder.Services.AddDbContextPool<AppDbContext>(opt =>
+builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ICodigoEmailRepository, CodigoRepository>();
 builder.Services.AddScoped<ICodigoEmailService, CodigoEmailService>();
-builder.Services.AddScoped<IRabbitMqClient, RabbitMqClient>();
+builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 
 builder.Services.AddHostedService<RabbitMqSubscriber>();
 builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
