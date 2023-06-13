@@ -1,10 +1,7 @@
 ﻿using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography;
-using System.Xml.Linq;
 using AutoMapper;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Ini;
 using MS.Emails.Entities;
 using MS.Emails.Interfaces;
 using MS.Emails.Respositories.Dto;
@@ -16,12 +13,13 @@ namespace MS.Emails.Services
         private readonly ICodigoEmailRepository _repository;
         private readonly IMapper _mapper;
         private IConfiguration _configuration;
-
-        public CodigoEmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration)
+        private IRabbitMqClient _rabbitMqClient;
+        public CodigoEmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration, IRabbitMqClient rabbitMqClient)
         {
             _repository = repository;
             _mapper = mapper;
             _configuration = configuration;
+            _rabbitMqClient = rabbitMqClient;
         }
 
         public async Task<string> CadastrarCodigoAsync(EmailRequestDto request)
@@ -41,7 +39,7 @@ namespace MS.Emails.Services
 
         public string ObterUrlConfirmacaoAsync(string urlBase, string codigo)
         {
-            return $"{urlBase}/confirmaemail?token={codigo}";
+            return $"{urlBase}/api/v1/email/confirmar-email?codigo={codigo}";
         }
 
         public async Task EnviarEmailConfirmacaoAsync(string email, string linkConfirmacao)
@@ -111,6 +109,19 @@ namespace MS.Emails.Services
                 Console.WriteLine(e);
                 throw;
             }
+        }
+
+        public async Task<string> ConfirmarEmailAsync(string codigo)
+        {
+            if (codigo == null) throw new ArgumentNullException(nameof(codigo));
+
+            var email = await _repository.GetByCodigoAsync(codigo);
+            
+            //await _repository.DeleteAsync(codigo);
+
+            _rabbitMqClient.EnviaEmailConfirmado(email);
+
+            return email;
         }
 
         private string CreateRandomToken()

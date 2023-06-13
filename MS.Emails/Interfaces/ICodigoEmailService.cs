@@ -11,6 +11,7 @@ namespace MS.Emails.Interfaces
         Task<bool> EnviarEmailAsync(string toEmail, string subject, string body, string fromEmail, string fromName);
 
         Task GerarCodigoConfirmacaoAsync(EmailRequestDto email);
-        
+
+        Task<string> ConfirmarEmailAsync(string codigo);
     }
 }

@@ -30,8 +30,8 @@ namespace MS.Emails.RabbitMq
 
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange:"trigger",type: ExchangeType.Fanout);
-            _queueName = _channel.QueueDeclare("").QueueName;
-            _channel.QueueBind(queue:_queueName,exchange:"trigger",routingKey:"");
+            _queueName = _channel.QueueDeclare("email").QueueName;
+            _channel.QueueBind(queue:_queueName,exchange:"trigger",routingKey:"email");
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
