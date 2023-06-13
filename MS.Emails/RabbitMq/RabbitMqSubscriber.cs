@@ -14,9 +14,10 @@ namespace MS.Emails.RabbitMq
         private IProcessaEvento _processaEvento;
 
 
-        public RabbitMqSubscriber(IConfiguration configuration)
+        public RabbitMqSubscriber(IConfiguration configuration, IProcessaEvento processaEvento)
         {
             _configuration = configuration;
+            _processaEvento = processaEvento;
             _connection = new ConnectionFactory()
             {
                 HostName = _configuration["MS_RABBITMQ_HOST"],
@@ -29,8 +30,8 @@ namespace MS.Emails.RabbitMq
 
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange:"trigger",type: ExchangeType.Fanout);
-            _queueName = _channel.QueueDeclare("").QueueName;
-            _channel.QueueBind(queue:_queueName,exchange:"trigger",routingKey:"");
+            _queueName = _channel.QueueDeclare("email").QueueName;
+            _channel.QueueBind(queue:_queueName,exchange:"trigger",routingKey:"email");
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)

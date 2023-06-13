@@ -1,14 +1,15 @@
-﻿using MS.Cadastro.Contracts;
-using RabbitMQ.Client;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
+using MS.Emails.Interfaces;
+using MS.Emails.Respositories.Dto;
+using RabbitMQ.Client;
 
-namespace MS.Cadastro.RabbitMqClient
+namespace MS.Emails.RabbitMq
 {
     public class RabbitMqClient : IRabbitMqClient
     {
-        private readonly IConnection _connection;
         private readonly IConfiguration _configuration;
+        private readonly IConnection _connection;
         private readonly IModel _channel;
 
         public RabbitMqClient(IConfiguration configuration)
@@ -24,19 +25,22 @@ namespace MS.Cadastro.RabbitMqClient
             }.CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-        }
+            _channel.ExchangeDeclare(exchange:"trigger",type: ExchangeType.Fanout);
+            
 
-        public void EnviaParaMsEmail(UsuarioResponse usuarioResponse)
+        }
+        public void EnviaEmailConfirmado(string email)
         {
-            string msg = JsonSerializer.Serialize(usuarioResponse);
-            var body = Encoding.UTF8.GetBytes(msg);
+            string mensagem = JsonSerializer.Serialize(email);
+            var body = Encoding.UTF8.GetBytes(mensagem);
 
             _channel.BasicPublish(exchange: "trigger",
-                routingKey: "email",
+                routingKey: "usuarioAtivo",
                 basicProperties: null,
                 body: body
-                );
+            );
         }
     }
+
+    
 }

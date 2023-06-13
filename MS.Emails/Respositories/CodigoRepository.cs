@@ -1,4 +1,5 @@
-﻿using MS.Emails.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using MS.Emails.Entities;
 using MS.Emails.Interfaces;
 
 namespace MS.Emails.Respositories
@@ -16,6 +17,29 @@ namespace MS.Emails.Respositories
         {
              await _context.CodigosEmail.AddAsync(codigoEmail);
              await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> GetByCodigoAsync(string codigo)
+        {
+             var result = await _context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
+
+             if(result == null)
+                throw new Exception("Código não encontrado ou expirado");
+
+
+             return result.Email;
+            
+        }
+
+        public async Task DeleteAsync(string codigo)
+        {
+            var result = await _context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
+
+            if(result == null)
+                throw new Exception("Código não encontrado ou expirado");
+
+            _context.CodigosEmail.Remove(result);
+            await _context.SaveChangesAsync();
         }
     }
 }
