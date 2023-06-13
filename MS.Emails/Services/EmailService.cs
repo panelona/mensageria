@@ -8,13 +8,13 @@ using MS.Emails.Respositories.Dto;
 
 namespace MS.Emails.Services
 {
-    public class CodigoEmailService : ICodigoEmailService
+    public class EmailService : IEmailService
     {
         private readonly ICodigoEmailRepository _repository;
         private readonly IMapper _mapper;
         private IConfiguration _configuration;
         private IRabbitMqClient _rabbitMqClient;
-        public CodigoEmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration, IRabbitMqClient rabbitMqClient)
+        public EmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration, IRabbitMqClient rabbitMqClient)
         {
             _repository = repository;
             _mapper = mapper;
@@ -26,8 +26,7 @@ namespace MS.Emails.Services
         {
 
             var entity = _mapper.Map<CodigoEmail>(request);
-
-
+            
             entity.Codigo = CreateRandomToken();
             entity.GeradoEm = DateTime.Now;
             await _repository.AddSync(entity);
@@ -37,7 +36,7 @@ namespace MS.Emails.Services
             return response.Codigo;
         }
 
-        public string ObterUrlConfirmacaoAsync(string urlBase, string codigo)
+        public string ObterUrlConfirmacao(string urlBase, string codigo)
         {
             return $"{urlBase}/api/v1/email/confirmar-email?codigo={codigo}";
         }
@@ -93,22 +92,9 @@ namespace MS.Emails.Services
             }
         }
 
-        public async Task GerarCodigoConfirmacaoAsync(EmailRequestDto email)
+        public async Task GerarCodigoConfirmacaoAsync(string email)
         {
-            if (email == null) throw new ArgumentNullException(nameof(email));
-            try
-            {
-                var codigo = await CadastrarCodigoAsync(email);
-
-                var linkConfirmacao = ObterUrlConfirmacaoAsync(_configuration["MS_EMAIL_URLBASE"], codigo);
-
-                await EnviarEmailConfirmacaoAsync(email.Email, linkConfirmacao);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            throw  new NotImplementedException();
         }
 
         public async Task<string> ConfirmarEmailAsync(string codigo)

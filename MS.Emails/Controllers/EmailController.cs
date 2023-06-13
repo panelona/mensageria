@@ -6,9 +6,9 @@ namespace MS.Emails.Controllers
     [ApiController]
     public class EmailController : Controller
     {
-        private readonly ICodigoEmailService _service;
+        private readonly IEmailService _service;
 
-        public EmailController(ICodigoEmailService service)
+        public EmailController(IEmailService service)
         {
             _service = service;
         }

@@ -20,17 +20,11 @@ namespace MS.Emails.Events
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var service = scope.ServiceProvider.GetRequiredService<ICodigoEmailService>();
-
+            var service = scope.ServiceProvider.GetRequiredService<ICodigoService>();
+            
             var email = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
-            
-            
-            if (email == null) throw new ArgumentNullException(nameof(email));
 
-            //var email = _mapper.Map<EmailRequestDto>(mensagem);
-
-
-            service.GerarCodigoConfirmacaoAsync(email);
+            service.gerarCodigoConfirmacaoAsync(email);
             
         }
     }
