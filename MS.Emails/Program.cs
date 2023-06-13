@@ -20,13 +20,16 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddHostedService<RabbitMqSubscriber>();
+builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
+//builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 builder.Services.AddScoped<ICodigoEmailRepository, CodigoRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICodigoService, CodigoService>();
-builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 
-builder.Services.AddHostedService<RabbitMqSubscriber>();
-builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
+
+
+
 
 var app = builder.Build();
 

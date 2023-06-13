@@ -29,5 +29,10 @@ public class CodigoService : ICodigoService
                     {
                         throw new Exception(ex.Message);
                     }
+                    
+                    
+                    
+                    
+                    
     }
 }

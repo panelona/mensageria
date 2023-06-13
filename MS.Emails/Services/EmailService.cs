@@ -13,13 +13,13 @@ namespace MS.Emails.Services
         private readonly ICodigoEmailRepository _repository;
         private readonly IMapper _mapper;
         private IConfiguration _configuration;
-        private IRabbitMqClient _rabbitMqClient;
-        public EmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration, IRabbitMqClient rabbitMqClient)
+        //private IRabbitMqClient _rabbitMqClient;
+        public EmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration)
         {
             _repository = repository;
             _mapper = mapper;
             _configuration = configuration;
-            _rabbitMqClient = rabbitMqClient;
+            //_rabbitMqClient = rabbitMqClient;
         }
 
         public async Task<string> CadastrarCodigoAsync(EmailRequestDto request)
@@ -29,9 +29,10 @@ namespace MS.Emails.Services
             
             entity.Codigo = CreateRandomToken();
             entity.GeradoEm = DateTime.Now;
+            var response = _mapper.Map<EmailResponseDto>(entity);
             await _repository.AddSync(entity);
 
-            var response = _mapper.Map<EmailResponseDto>(entity);
+            
 
             return response.Codigo;
         }
@@ -105,7 +106,7 @@ namespace MS.Emails.Services
             
             //await _repository.DeleteAsync(codigo);
 
-            _rabbitMqClient.EnviaEmailConfirmado(email);
+            //_rabbitMqClient.EnviaEmailConfirmado(email);
 
             return email;
         }
