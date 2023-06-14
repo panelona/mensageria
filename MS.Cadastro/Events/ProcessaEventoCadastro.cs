@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MS.Cadastro.Contracts;
+using MS.Cadastro.Entity;
+using MS.Cadastro.Interfaces.Repositories;
 using MS.Cadastro.Interfaces.Services;
+using MS.Cadastro.Repositories;
 using System.Text.Json;
 
 namespace MS.Cadastro.Events
@@ -16,16 +20,27 @@ namespace MS.Cadastro.Events
             _scopeFactory = scopeFactory;
         }
 
-        public void Processa(string mensagem)
+        public async void Processa(string mensagem)
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var _usuarioService = scope.ServiceProvider.GetRequiredService<IUsuarioService>();
+            var _usuarioRepository = scope.ServiceProvider.GetRequiredService<UsuarioContext>();
 
-            //var usuarioResponse = _mapper.Map<UsuarioResponse>(mensagem);
-            //var usuarioResponse = JsonSerializer.Deserialize<UsuarioResponse>(mensagem);
+            //var usuarioResponse = _mapper.Map<Usuario>(mensagem);
 
-            _usuarioService.AlterarStatusAsync(mensagem);
+            var msgResponse = JsonSerializer.Deserialize<UsuarioResponse>(mensagem);
+
+            var entity = await _usuarioRepository.Usuarios.FirstOrDefaultAsync(p => p.Email.Equals(msgResponse.Email));
+
+            entity.Status = true;
+
+            _usuarioRepository.Update(entity);
+            await _usuarioRepository.SaveChangesAsync();
+
+
+            
+            //
+            //_usuarioService.AlterarStatusAsync(mensagem);
         }
     }
 }

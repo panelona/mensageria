@@ -36,11 +36,11 @@ namespace MS.Cadastro.Repositories
             return await _context.Set<Usuario>().FindAsync(id);
         }
 
-        public async Task<Usuario> FindEmailAsync(string email)
+        public async Task<Usuario> FindAsync(Expression<Func<Usuario, bool>> expression)
         {
             try
             {
-                return await _context.Usuarios.FirstOrDefaultAsync(prop => prop.Email == email);
+                return await _context.Set<Usuario>().FirstOrDefaultAsync(expression);
             }
             catch (Exception)
             {
