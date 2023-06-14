@@ -22,7 +22,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHostedService<RabbitMqSubscriber>();
 builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
-//builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
+builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 builder.Services.AddScoped<ICodigoEmailRepository, CodigoRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICodigoService, CodigoService>();

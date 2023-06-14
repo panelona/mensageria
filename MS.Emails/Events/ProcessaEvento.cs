@@ -28,17 +28,14 @@ namespace MS.Emails.Events
 
             var repository = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             
-            var email = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
+            var mensagemResponse = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
 
-            //service.gerarCodigoConfirmacaoAsync(email);
-
-
-            //var entity = _mapper.Map<CodigoEmail>(mensagem);
+            
 
             var entity = new CodigoEmail
             {
                 Codigo = service.CreateRandomToken(),
-                Email = email.Email,
+                Email = mensagemResponse.Email,
                 GeradoEm = DateTime.Now
             };
 
@@ -51,17 +48,16 @@ namespace MS.Emails.Events
                 var linkConfirmacao = service.ObterUrlConfirmacao(_configuration["MS_EMAIL_URLBASE"], entity.Codigo);
 
 
-                await service.EnviarEmailConfirmacaoAsync(email.Email, linkConfirmacao);
+                await service.EnviarEmailConfirmacaoAsync(mensagemResponse.Email, linkConfirmacao);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                
             }
 
 
 
-            
+
         }
     }
 }

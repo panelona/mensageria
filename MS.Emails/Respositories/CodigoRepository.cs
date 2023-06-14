@@ -19,7 +19,7 @@ namespace MS.Emails.Respositories
              await _context.SaveChangesAsync();
         }
 
-        public async Task<string> GetByCodigoAsync(string codigo)
+        public async Task<CodigoEmail> GetByCodigoAsync(string codigo)
         {
              var result = await _context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
 
@@ -27,7 +27,7 @@ namespace MS.Emails.Respositories
                 throw new Exception("Código não encontrado ou expirado");
 
 
-             return result.Email;
+             return result;
             
         }
 
