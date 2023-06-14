@@ -25,7 +25,7 @@ namespace MS.Emails.RabbitMq
             }.CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange:"trigger",type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange:"direct",type: ExchangeType.Direct);
             
 
         }
@@ -34,7 +34,7 @@ namespace MS.Emails.RabbitMq
             string mensagem = JsonSerializer.Serialize(email);
             var body = Encoding.UTF8.GetBytes(mensagem);
 
-            _channel.BasicPublish(exchange: "trigger",
+            _channel.BasicPublish(exchange: "direct",
                 routingKey: "usuarioAtivo",
                 basicProperties: null,
                 body: body

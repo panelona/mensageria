@@ -29,9 +29,9 @@ namespace MS.Emails.RabbitMq
             }.CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange:"trigger",type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange:"direct",type: ExchangeType.Direct);
             _queueName = _channel.QueueDeclare("email").QueueName;
-            _channel.QueueBind(queue:_queueName,exchange:"trigger",routingKey:"email");
+            _channel.QueueBind(queue:_queueName,exchange:"direct",routingKey:"email");
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
