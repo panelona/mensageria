@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using MS.Cadastro.EmailService;
 using MS.Cadastro.Events;
 using MS.Cadastro.Interfaces.Repositories;
 using MS.Cadastro.Interfaces.Services;
-using MS.Cadastro.Profiles;
 using MS.Cadastro.RabbitMqClient;
 using MS.Cadastro.Repositories;
 using MS.Cadastro.Services;
@@ -25,16 +23,10 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 #region build Rabbit
 builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 builder.Services.AddSingleton<IProcessaEventoCadastro, ProcessaEventoCadastro>();
-builder.Services.AddHttpClient<IEmailServiceHttpClient, EmailServiceHttpClient>();
 builder.Services.AddHostedService<RabbitMqSubscriberCadastro>();
 #endregion
 
 #region Variáveis de ambiente
-var RabbitMqHost = Environment.GetEnvironmentVariable("MS_RABBITMQ_HOST");
-var RabbitMqPort = Environment.GetEnvironmentVariable("MS_RABBITMQ_PORT");
-var RabbitMqUser = Environment.GetEnvironmentVariable("MS_RABBITMQ_USER");
-var RabbitMqPassword = Environment.GetEnvironmentVariable("MS_RABBITMQ_PASSWORD");
-var RabbitMqVHost = Environment.GetEnvironmentVariable("MS_RABBITMQ_VHOST");
 var ConnectionString = Environment.GetEnvironmentVariable("MS_CADASTRO_CONNSTRING");
 #endregion
 
@@ -42,7 +34,6 @@ var ConnectionString = Environment.GetEnvironmentVariable("MS_CADASTRO_CONNSTRIN
 builder.Services.AddDbContext<UsuarioContext>(opt => opt.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
 #endregion
 
-//ConfigureMappers.ConfigureDependenciesMapper(builder.Services);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();

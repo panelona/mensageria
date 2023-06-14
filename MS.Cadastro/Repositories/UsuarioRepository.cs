@@ -1,6 +1,6 @@
-﻿using MS.Cadastro.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MS.Cadastro.Entity;
 using MS.Cadastro.Interfaces.Repositories;
-using System.Data.Entity;
 using System.Linq.Expressions;
 
 namespace MS.Cadastro.Repositories
@@ -36,9 +36,18 @@ namespace MS.Cadastro.Repositories
             return await _context.Set<Usuario>().FindAsync(id);
         }
 
-        public async Task<Usuario> FindAsync(Expression<Func<Usuario, bool>> expression)
+        public async Task<Usuario> FindEmailAsync(string email)
         {
-            return await _context.Set<Usuario>().FirstOrDefaultAsync(expression);
+            try
+            {
+                return await _context.Usuarios.FirstOrDefaultAsync(prop => prop.Email == email);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            } 
+           
         }
 
         public async Task<IEnumerable<Usuario>> ListAsync()

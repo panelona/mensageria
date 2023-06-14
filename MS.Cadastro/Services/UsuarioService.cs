@@ -25,7 +25,11 @@ namespace MS.Cadastro.Services
 
         public async Task AlterarStatusAsync(string email)
         {
-            var entity = await _usuarioRepository.FindAsync(prop => prop.Email.Equals(email));
+            var entity = await _usuarioRepository.FindEmailAsync(email);
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
             entity.Status = true;
             await _usuarioRepository.EditAsync(entity);
         }

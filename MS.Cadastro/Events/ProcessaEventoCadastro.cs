@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MS.Cadastro.Contracts;
-using MS.Cadastro.Entity;
 using MS.Cadastro.Interfaces.Services;
 using System.Text.Json;
 
@@ -23,9 +22,10 @@ namespace MS.Cadastro.Events
 
             var _usuarioService = scope.ServiceProvider.GetRequiredService<IUsuarioService>();
 
-            var usuarioResponse = JsonSerializer.Deserialize<UsuarioResponse>(mensagem);
+            //var usuarioResponse = _mapper.Map<UsuarioResponse>(mensagem);
+            //var usuarioResponse = JsonSerializer.Deserialize<UsuarioResponse>(mensagem);
 
-            _usuarioService.AlterarStatusAsync(usuarioResponse.Email);
+            _usuarioService.AlterarStatusAsync(mensagem);
         }
     }
 }

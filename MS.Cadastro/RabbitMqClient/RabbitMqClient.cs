@@ -24,7 +24,7 @@ namespace MS.Cadastro.RabbitMqClient
             }.CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
         }
 
         public void EnviaParaMsEmail(UsuarioResponse usuarioResponse)
@@ -32,7 +32,7 @@ namespace MS.Cadastro.RabbitMqClient
             string msg = JsonSerializer.Serialize(usuarioResponse);
             var body = Encoding.UTF8.GetBytes(msg);
 
-            _channel.BasicPublish(exchange: "trigger",
+            _channel.BasicPublish(exchange: "direct",
                 routingKey: "email",
                 basicProperties: null,
                 body: body

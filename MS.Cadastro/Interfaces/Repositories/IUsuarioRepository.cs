@@ -6,7 +6,7 @@ namespace MS.Cadastro.Interfaces.Repositories
     public interface IUsuarioRepository
     {
         Task<Usuario> FindAsync(Guid id);
-        Task<Usuario> FindAsync(Expression<Func<Usuario, bool>> expression);
+        Task<Usuario> FindEmailAsync(String email);
         Task<Usuario> FindAsNoTrackingAsync(Expression<Func<Usuario, bool>> expression);
         Task<IEnumerable<Usuario>> ListAsync();
         Task<IEnumerable<Usuario>> ListAsync(Expression<Func<Usuario, bool>> expression);

@@ -13,9 +13,10 @@ namespace MS.Cadastro.RabbitMqClient
         private IModel _channel;
         private IProcessaEventoCadastro _processaEvento;
 
-        public RabbitMqSubscriberCadastro(IConfiguration configuration)
+        public RabbitMqSubscriberCadastro(IConfiguration configuration, IProcessaEventoCadastro processaEvento)
         {
             _configuration = configuration;
+            _processaEvento = processaEvento;
             _connection = new ConnectionFactory()
             {
                 HostName = _configuration["MS_RABBITMQ_HOST"],
@@ -27,9 +28,9 @@ namespace MS.Cadastro.RabbitMqClient
             }.CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-            _nomeDaFila = _channel.QueueDeclare("").QueueName;
-            _channel.QueueBind(queue: _nomeDaFila, exchange: "trigger", routingKey: "usuarioAtivo");
+            _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
+            _nomeDaFila = _channel.QueueDeclare("usuarioAtivo").QueueName;
+            _channel.QueueBind(queue: _nomeDaFila, exchange: "direct", routingKey: "usuarioAtivo");
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
