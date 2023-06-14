@@ -111,7 +111,7 @@ namespace MS.Emails.Services
             return email;
         }
 
-        private string CreateRandomToken()
+        public string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(2));
         }
