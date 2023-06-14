@@ -23,6 +23,17 @@ namespace MS.Cadastro.Services
             _rabbitMqClient = rabbitMqClient;
         }
 
+        public async Task AlterarStatusAsync(string email)
+        {
+            var entity = await _usuarioRepository.FindEmailAsync(email);
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            entity.Status = true;
+            await _usuarioRepository.EditAsync(entity);
+        }
+
         public async Task<UsuarioResponse> AtualizarAsync(Guid? id, UsuarioRequest request)
         {
             throw new NotImplementedException();

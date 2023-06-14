@@ -16,11 +16,15 @@ namespace MS.Cadastro.RabbitMqClient
             _configuration = configuration;
             _connection = new ConnectionFactory()
             {
-                HostName = _configuration["RabbitMqHost"],
-                Port = Int32.Parse(_configuration["RabbitMqPort"]), UserName = _configuration["RabbitMqUser"],
-                Password = _configuration["RabbitMqPassword"], VirtualHost = _configuration["RabbitMqVhost"] }.CreateConnection();
+                HostName = _configuration["MS_RABBITMQ_HOST"],
+                Port = int.Parse(_configuration["MS_RABBITMQ_PORT"]),
+                VirtualHost = _configuration["MS_RABBITMQ_VHOST"],
+                UserName = _configuration["MS_RABBITMQ_USER"],
+                Password = _configuration["MS_RABBITMQ_PASSWORD"]
+            }.CreateConnection();
+
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
+            _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
         }
 
         public void EnviaParaMsEmail(UsuarioResponse usuarioResponse)
@@ -28,7 +32,7 @@ namespace MS.Cadastro.RabbitMqClient
             string msg = JsonSerializer.Serialize(usuarioResponse);
             var body = Encoding.UTF8.GetBytes(msg);
 
-            _channel.BasicPublish(exchange: "trigger",
+            _channel.BasicPublish(exchange: "direct",
                 routingKey: "email",
                 basicProperties: null,
                 body: body
