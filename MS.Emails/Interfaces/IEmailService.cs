@@ -13,5 +13,7 @@ namespace MS.Emails.Interfaces
         Task GerarCodigoConfirmacaoAsync(string email);
 
         Task<string> ConfirmarEmailAsync(string codigo);
+
+        string CreateRandomToken();
     }
 }

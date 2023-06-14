@@ -1,6 +1,8 @@
 ﻿using System.Text.Json;
 using AutoMapper;
+using MS.Emails.Entities;
 using MS.Emails.Interfaces;
+using MS.Emails.Respositories;
 using MS.Emails.Respositories.Dto;
 
 namespace MS.Emails.Events
@@ -9,23 +11,53 @@ namespace MS.Emails.Events
     {
         private readonly IMapper _mapper;
         private readonly IServiceScopeFactory _scopeFactory;
+        private IConfiguration _configuration;
 
-        public ProcessaEvento(IMapper mapper, IServiceScopeFactory scopeFactory)
+        public ProcessaEvento(IMapper mapper, IServiceScopeFactory scopeFactory, IConfiguration configuration)
         {
             _mapper = mapper;
             _scopeFactory = scopeFactory;
+            _configuration = configuration;
         }
 
-        public void Processa(string mensagem)
+        public async void Processa(string mensagem)
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var service = scope.ServiceProvider.GetRequiredService<ICodigoService>();
-            
-            var email = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
+            var service = scope.ServiceProvider.GetRequiredService<IEmailService>();
 
-            service.gerarCodigoConfirmacaoAsync(email);
+            var repository = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             
+            var mensagemResponse = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
+
+            
+
+            var entity = new CodigoEmail
+            {
+                Codigo = service.CreateRandomToken(),
+                Email = mensagemResponse.Email,
+                GeradoEm = DateTime.Now
+            };
+
+
+            try
+            {
+                await repository.AddAsync(entity);
+                await repository.SaveChangesAsync();
+
+                var linkConfirmacao = service.ObterUrlConfirmacao(_configuration["MS_EMAIL_URLBASE"], entity.Codigo);
+
+
+                await service.EnviarEmailConfirmacaoAsync(mensagemResponse.Email, linkConfirmacao);
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+
+
+
         }
     }
 }

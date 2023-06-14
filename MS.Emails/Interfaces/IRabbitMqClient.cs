@@ -4,6 +4,6 @@ namespace MS.Emails.Interfaces
 {
     public interface IRabbitMqClient
     {
-        void EnviaEmailConfirmado(string email);
+        void EnviaEmailConfirmado(EmailRequestDto request);
     }
 }

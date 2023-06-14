@@ -29,9 +29,9 @@ namespace MS.Emails.RabbitMq
             
 
         }
-        public void EnviaEmailConfirmado(string email)
+        public void EnviaEmailConfirmado(EmailRequestDto request)
         {
-            string mensagem = JsonSerializer.Serialize(email);
+            string mensagem = JsonSerializer.Serialize(request);
             var body = Encoding.UTF8.GetBytes(mensagem);
 
             _channel.BasicPublish(exchange: "direct",
