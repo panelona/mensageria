@@ -8,36 +8,36 @@ using MS.Emails.Respositories.Dto;
 
 namespace MS.Emails.Services
 {
-    public class CodigoEmailService : ICodigoEmailService
+    public class EmailService : IEmailService
     {
         private readonly ICodigoEmailRepository _repository;
         private readonly IMapper _mapper;
         private IConfiguration _configuration;
-        private IRabbitMqClient _rabbitMqClient;
-        public CodigoEmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration, IRabbitMqClient rabbitMqClient)
+        //private IRabbitMqClient _rabbitMqClient;
+        public EmailService(ICodigoEmailRepository repository, IMapper mapper, IConfiguration configuration)
         {
             _repository = repository;
             _mapper = mapper;
             _configuration = configuration;
-            _rabbitMqClient = rabbitMqClient;
+            //_rabbitMqClient = rabbitMqClient;
         }
 
         public async Task<string> CadastrarCodigoAsync(EmailRequestDto request)
         {
 
             var entity = _mapper.Map<CodigoEmail>(request);
-
-
+            
             entity.Codigo = CreateRandomToken();
             entity.GeradoEm = DateTime.Now;
+            var response = _mapper.Map<EmailResponseDto>(entity);
             await _repository.AddSync(entity);
 
-            var response = _mapper.Map<EmailResponseDto>(entity);
+            
 
             return response.Codigo;
         }
 
-        public string ObterUrlConfirmacaoAsync(string urlBase, string codigo)
+        public string ObterUrlConfirmacao(string urlBase, string codigo)
         {
             return $"{urlBase}/api/v1/email/confirmar-email?codigo={codigo}";
         }
@@ -93,22 +93,9 @@ namespace MS.Emails.Services
             }
         }
 
-        public async Task GerarCodigoConfirmacaoAsync(EmailRequestDto email)
+        public async Task GerarCodigoConfirmacaoAsync(string email)
         {
-            if (email == null) throw new ArgumentNullException(nameof(email));
-            try
-            {
-                var codigo = await CadastrarCodigoAsync(email);
-
-                var linkConfirmacao = ObterUrlConfirmacaoAsync(_configuration["MS_EMAIL_URLBASE"], codigo);
-
-                await EnviarEmailConfirmacaoAsync(email.Email, linkConfirmacao);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            throw  new NotImplementedException();
         }
 
         public async Task<string> ConfirmarEmailAsync(string codigo)
@@ -119,7 +106,7 @@ namespace MS.Emails.Services
             
             //await _repository.DeleteAsync(codigo);
 
-            _rabbitMqClient.EnviaEmailConfirmado(email);
+            //_rabbitMqClient.EnviaEmailConfirmado(email);
 
             return email;
         }
