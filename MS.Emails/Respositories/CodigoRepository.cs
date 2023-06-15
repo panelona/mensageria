@@ -6,40 +6,52 @@ namespace MS.Emails.Respositories
 {
     public class CodigoRepository : ICodigoEmailRepository
     {
-        private readonly AppDbContext _context;
+      
+       private readonly ITransientDbContextFactory<AppDbContext> _context;
 
-        public CodigoRepository(AppDbContext context)
+        public CodigoRepository(ITransientDbContextFactory<AppDbContext> context)
         {
             _context = context;
         }
 
         public async Task AddSync(CodigoEmail codigoEmail)
         {
-             await _context.CodigosEmail.AddAsync(codigoEmail);
-             await _context.SaveChangesAsync();
+            using (var context = _context.CreateDbContext())
+            {
+                await context.CodigosEmail.AddAsync(codigoEmail);
+                await context.SaveChangesAsync();
+            }
+             
         }
 
         public async Task<CodigoEmail> GetByCodigoAsync(string codigo)
         {
-             var result = await _context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
+            using (var context = _context.CreateDbContext())
+            {
+                var result = await context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
+                if(result == null)
+                    throw new Exception("Código não encontrado ou expirado");
 
-             if(result == null)
-                throw new Exception("Código não encontrado ou expirado");
 
-
-             return result;
+                return result;
+            }
             
         }
 
         public async Task DeleteAsync(string codigo)
         {
-            var result = await _context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
+            using (var context = _context.CreateDbContext())
+            {
+                var result = await context.CodigosEmail.FirstOrDefaultAsync(x => x.Codigo == codigo);
 
-            if(result == null)
-                throw new Exception("Código não encontrado ou expirado");
+                if(result == null)
+                    throw new Exception("Código não encontrado ou expirado");
 
-            _context.CodigosEmail.Remove(result);
-            await _context.SaveChangesAsync();
+                context.CodigosEmail.Remove(result);
+                await context.SaveChangesAsync();
+            }
+            
+            
         }
     }
 }
