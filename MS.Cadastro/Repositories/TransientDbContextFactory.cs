@@ -13,7 +13,7 @@ namespace MS.Cadastro.Repositories
         }
         public AppDbContext CreateDbContext()
         {
-            var connectionString = _configuration["MS_EMAIL_CONNSTRING"];
+            var connectionString = _configuration["MS_CADASTRO_CONNSTRING"];
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 
