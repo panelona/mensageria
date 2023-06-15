@@ -25,36 +25,13 @@ namespace MS.Emails.Events
             using var scope = _scopeFactory.CreateScope();
 
             var service = scope.ServiceProvider.GetRequiredService<IEmailService>();
-
-            var repository = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            
             
             var mensagemResponse = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
 
+            if(mensagemResponse != null)
+                await service.GerarCodigoConfirmacaoAsync(mensagemResponse);
             
-
-            var entity = new CodigoEmail
-            {
-                Codigo = service.CreateRandomToken(),
-                Email = mensagemResponse.Email,
-                GeradoEm = DateTime.Now
-            };
-
-
-            try
-            {
-                await repository.AddAsync(entity);
-                await repository.SaveChangesAsync();
-
-                var linkConfirmacao = service.ObterUrlConfirmacao(_configuration["MS_EMAIL_URLBASE"], entity.Codigo);
-
-
-                await service.EnviarEmailConfirmacaoAsync(mensagemResponse.Email, linkConfirmacao);
-            }
-            catch (Exception ex)
-            {
-                
-            }
-
 
 
 
