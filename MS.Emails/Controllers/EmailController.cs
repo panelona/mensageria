@@ -44,7 +44,7 @@ namespace MS.Emails.Controllers
         {
             try
             {
-                await _codigoService.gerarCodigoConfirmacaoAsync(request);
+                await _emailService.GerarCodigoConfirmacaoAsync(request);
 
                 return Ok();
             }

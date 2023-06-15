@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using MS.Emails.Events;
 using MS.Emails.Interfaces;
 using MS.Emails.RabbitMq;
@@ -14,9 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
                                                                 
-var connectionString = builder.Configuration.GetValue<string>("MS_EMAIL_CONNSTRING");
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+//var connectionString = builder.Configuration.GetValue<string>("MS_EMAIL_CONNSTRING");
+// builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services
+    .AddTransient<ITransientDbContextFactory<AppDbContext>,
+        TransientDbContextFactory>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

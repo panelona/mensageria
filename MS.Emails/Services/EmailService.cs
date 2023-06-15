@@ -30,6 +30,7 @@ namespace MS.Emails.Services
             
             entity.Codigo = CreateRandomToken();
             entity.GeradoEm = DateTime.Now;
+            entity.Id = Guid.NewGuid();
             var response = _mapper.Map<EmailResponseDto>(entity);
             await _repository.AddSync(entity);
 
@@ -94,9 +95,21 @@ namespace MS.Emails.Services
             }
         }
 
-        public async Task GerarCodigoConfirmacaoAsync(string email)
+        public async Task GerarCodigoConfirmacaoAsync(EmailRequestDto request)
         {
-            throw  new NotImplementedException();
+            try
+            {
+              
+                var codigo = await CadastrarCodigoAsync(request);
+        
+                var linkConfirmacao =  ObterUrlConfirmacao(_configuration["MS_EMAIL_URLBASE"], codigo);
+        
+                await EnviarEmailConfirmacaoAsync(request.Email, linkConfirmacao);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<string> ConfirmarEmailAsync(string codigo)

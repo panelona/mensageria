@@ -10,7 +10,7 @@ namespace MS.Emails.Interfaces
         Task EnviarEmailConfirmacaoAsync(string email, string linkConfirmacao);
         Task<bool> EnviarEmailAsync(string toEmail, string subject, string body, string fromEmail, string fromName);
 
-        Task GerarCodigoConfirmacaoAsync(string email);
+        Task GerarCodigoConfirmacaoAsync(EmailRequestDto email);
 
         Task<string> ConfirmarEmailAsync(string codigo);
 
