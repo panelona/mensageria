@@ -17,7 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.env.example = .env.example
 		.gitignore = .gitignore
+		Docs\diagrama-sequencia-beta.jpg = Docs\diagrama-sequencia-beta.jpg
 		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C989DF59-A4F6-4EDD-B381-B873EC3B2890}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\diagrama-sequencia-beta.jpg = Docs\diagrama-sequencia-beta.jpg
 	EndProjectSection
 EndProject
 Global
@@ -49,6 +55,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C989DF59-A4F6-4EDD-B381-B873EC3B2890} = {82D236A5-1DEA-4342-9EE8-5C64A1673566}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C80953C5-00CC-487D-BE1D-5D8591594D8B}
