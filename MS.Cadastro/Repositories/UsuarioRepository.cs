@@ -7,63 +7,78 @@ namespace MS.Cadastro.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly UsuarioContext _context;
+        private readonly ITransientDbContextFactory<AppDbContext> _context;
 
-        public UsuarioRepository(UsuarioContext context)
+        public UsuarioRepository(ITransientDbContextFactory<AppDbContext> context)
         {
             _context = context;
         }
 
         public async Task AddAsync(Usuario usuario)
         {
-            await _context.Set<Usuario>().AddAsync(usuario);
-            await _context.SaveChangesAsync();
+            using (var context = _context.CreateDbContext())
+            {
+                await context.AddAsync(usuario);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task EditAsync(Usuario usuario)
         {
-            _context.Set<Usuario>().Update(usuario);
-            await _context.SaveChangesAsync();
+            using (var context = _context.CreateDbContext())
+            {
+                context.Update(usuario);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<Usuario> FindAsNoTrackingAsync(Expression<Func<Usuario, bool>> expression)
         {
-            return await _context.Set<Usuario>().AsNoTracking().FirstOrDefaultAsync(expression);
+            using (var context = _context.CreateDbContext())
+            {
+                return await context.Set<Usuario>().AsNoTracking().FirstOrDefaultAsync(expression);
+            }
         }
 
         public async Task<Usuario> FindAsync(Guid id)
         {
-            return await _context.Set<Usuario>().FindAsync(id);
+            using (var context = _context.CreateDbContext())
+            {
+                return await context.Set<Usuario>().FindAsync(id);
+            }
         }
 
         public async Task<Usuario> FindAsync(Expression<Func<Usuario, bool>> expression)
         {
-            try
+            using (var context = _context.CreateDbContext())
             {
-                return await _context.Set<Usuario>().FirstOrDefaultAsync(expression);
+                return await context.Set<Usuario>().FirstOrDefaultAsync(expression);
             }
-            catch (Exception)
-            {
-
-                throw;
-            } 
-           
         }
 
         public async Task<IEnumerable<Usuario>> ListAsync()
         {
-            return await _context.Set<Usuario>().ToListAsync();
+            using (var context = _context.CreateDbContext())
+            {
+                return await context.Set<Usuario>().ToListAsync();
+            }
         }
 
         public async Task<IEnumerable<Usuario>> ListAsync(Expression<Func<Usuario, bool>> expression)
         {
-            return await _context.Set<Usuario>().Where(expression).ToListAsync();
+            using (var context = _context.CreateDbContext())
+            {
+                return await context.Set<Usuario>().Where(expression).ToListAsync();
+            }
         }
 
         public async Task RemoveAsync(Usuario usuario)
         {
-            _context.Set<Usuario>().Remove(usuario);
-            await _context.SaveChangesAsync();
+            using (var context = _context.CreateDbContext())
+            {
+                context.Set<Usuario>().Remove(usuario);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

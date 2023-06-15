@@ -31,7 +31,7 @@ var ConnectionString = Environment.GetEnvironmentVariable("MS_CADASTRO_CONNSTRIN
 #endregion
 
 #region Context
-builder.Services.AddDbContext<UsuarioContext>(opt => opt.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
 #endregion
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

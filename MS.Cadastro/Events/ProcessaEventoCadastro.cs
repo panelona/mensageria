@@ -24,7 +24,7 @@ namespace MS.Cadastro.Events
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var _usuarioRepository = scope.ServiceProvider.GetRequiredService<UsuarioContext>();
+            var _usuarioRepository = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             //var usuarioResponse = _mapper.Map<Usuario>(mensagem);
 

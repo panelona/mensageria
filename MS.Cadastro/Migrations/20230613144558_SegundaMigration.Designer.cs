@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MS.Cadastro.Migrations
 {
-    [DbContext(typeof(UsuarioContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20230613144558_SegundaMigration")]
     partial class SegundaMigration
     {

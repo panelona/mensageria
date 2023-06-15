@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MS.Cadastro.Migrations
 {
-    [DbContext(typeof(UsuarioContext))]
+    [DbContext(typeof(AppDbContext))]
     partial class UsuarioContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
