@@ -29,7 +29,7 @@ namespace MS.Cadastro.RabbitMqClient
 
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
-            _nomeDaFila = _channel.QueueDeclare("usuarioAtivo").QueueName;
+            _nomeDaFila = _channel.QueueDeclare("usuarioAtivo1").QueueName;
             _channel.QueueBind(queue: _nomeDaFila, exchange: "direct", routingKey: "usuarioAtivo");
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
