@@ -9,6 +9,6 @@ namespace MS.Cadastro.Interfaces.Services
         Task DeletarAsync(Guid id);
         Task<UsuarioResponse> ObterPorIdAsync(Guid id);
         Task<IEnumerable<UsuarioResponse>> ObterTodosAsync();
-        Task AlterarStatusAsync(String email);
+        Task AlterarStatusAsync(UsuarioResponse email);
     }
 }

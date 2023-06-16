@@ -7,8 +7,7 @@ namespace MS.Emails.Respositories
 {
     public class CodigoRepository : ICodigoEmailRepository
     {
-      
-       private readonly IDbContextFactory<TransientDbContextFactory> _context;
+        private readonly IDbContextFactory<TransientDbContextFactory> _context;
 
         public CodigoRepository(IDbContextFactory<TransientDbContextFactory> context)
         {

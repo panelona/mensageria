@@ -23,9 +23,9 @@ namespace MS.Cadastro.Services
             _rabbitMqClient = rabbitMqClient;
         }
 
-        public async Task AlterarStatusAsync(string email)
+        public async Task AlterarStatusAsync(UsuarioResponse response)
         {
-            var entity = await _usuarioRepository.FindAsync(p => p.Email.Equals(email));
+            var entity = await _usuarioRepository.FindAsync(p => p.Email.Equals(response.Email));
             if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));

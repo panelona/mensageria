@@ -7,9 +7,9 @@ namespace MS.Cadastro.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly ITransientDbContextFactory<AppDbContext> _context;
+        private readonly IDbContextFactory<TransientDbContextFactory> _context;
 
-        public UsuarioRepository(ITransientDbContextFactory<AppDbContext> context)
+        public UsuarioRepository(IDbContextFactory<TransientDbContextFactory> context)
         {
             _context = context;
         }
