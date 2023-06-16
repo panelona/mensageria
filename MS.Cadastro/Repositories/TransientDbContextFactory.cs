@@ -1,23 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MS.Cadastro.Entity;
 using MS.Cadastro.Interfaces.Repositories;
 
 namespace MS.Cadastro.Repositories
 {
-    public class TransientDbContextFactory : ITransientDbContextFactory<AppDbContext>
+    public class TransientDbContextFactory : DbContext
     {
-        private readonly IConfiguration _configuration;
-
-        public TransientDbContextFactory(IConfiguration configuration)
+        public DbSet<Usuario> Usuarios { get; set; }
+        public TransientDbContextFactory(DbContextOptions<TransientDbContextFactory> options) : base(options)
         {
-            _configuration = configuration;
-        }
-        public AppDbContext CreateDbContext()
-        {
-            var connectionString = _configuration["MS_CADASTRO_CONNSTRING"];
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 
-            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

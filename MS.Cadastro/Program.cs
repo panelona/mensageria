@@ -26,13 +26,12 @@ builder.Services.AddSingleton<IProcessaEventoCadastro, ProcessaEventoCadastro>()
 builder.Services.AddHostedService<RabbitMqSubscriberCadastro>();
 #endregion
 
-#region Variáveis de ambiente
-//var ConnectionString = Environment.GetEnvironmentVariable("MS_CADASTRO_CONNSTRING");
-#endregion
-
 #region Context
-//builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(ConnectionString, ServerVersion.AutoDetect(ConnectionString)));
-builder.Services.AddTransient<ITransientDbContextFactory<AppDbContext>,TransientDbContextFactory>();
+builder.Services.AddDbContextFactory<TransientDbContextFactory>(options =>
+{
+    var connectionString = builder.Configuration["MS_CADASTRO_CONNSTRING"];
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 #endregion
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

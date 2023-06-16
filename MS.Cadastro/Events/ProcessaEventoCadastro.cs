@@ -24,23 +24,11 @@ namespace MS.Cadastro.Events
         {
             using var scope = _scopeFactory.CreateScope();
 
-            var _usuarioRepository = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            //var usuarioResponse = _mapper.Map<Usuario>(mensagem);
+            var _usuarioService = scope.ServiceProvider.GetRequiredService<IUsuarioService>();
 
             var msgResponse = JsonSerializer.Deserialize<UsuarioResponse>(mensagem);
 
-            var entity = await _usuarioRepository.Usuarios.FirstOrDefaultAsync(p => p.Email.Equals(msgResponse.Email));
-
-            entity.Status = true;
-
-            _usuarioRepository.Update(entity);
-            await _usuarioRepository.SaveChangesAsync();
-
-
-            
-            //
-            //_usuarioService.AlterarStatusAsync(mensagem);
+            await _usuarioService.AlterarStatusAsync(msgResponse);
         }
     }
 }
