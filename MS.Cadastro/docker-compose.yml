@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  mscadastro:
+    image: edileal/mscadastro:1.0
+    container_name: mscadastro
+    ports:
+      - "5000:80"
+    environment:
+      - MS_CADASTRO_CONNSTRING=${MS_CADASTRO_CONNSTRING}
+      - MS_RABBITMQ_HOST=${MS_RABBITMQ_HOST}
+      - MS_RABBITMQ_PORT=${MS_RABBITMQ_PORT}
+      - MS_RABBITMQ_USER=${MS_RABBITMQ_USER}
+      - MS_RABBITMQ_PASSWORD=${MS_RABBITMQ_PASSWORD}
+      - MS_RABBITMQ_VHOST=${MS_RABBITMQ_VHOST}
+    restart: unless-stopped
