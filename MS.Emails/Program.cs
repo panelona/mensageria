@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MS.Emails.Events;
 using MS.Emails.Interfaces;
 using MS.Emails.RabbitMq;
@@ -12,13 +13,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-                                                                
-//var connectionString = builder.Configuration.GetValue<string>("MS_EMAIL_CONNSTRING");
-// builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-builder.Services
-    .AddTransient<ITransientDbContextFactory<AppDbContext>,
-        TransientDbContextFactory>();
+
+builder.Services.AddDbContextFactory<TransientDbContextFactory>(options =>
+{
+    var connectionString = builder.Configuration["MS_EMAIL_CONNSTRING"];
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
+    
+
+
+
+
+var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
