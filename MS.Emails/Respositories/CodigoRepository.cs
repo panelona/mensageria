@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MS.Emails.Entities;
 using MS.Emails.Interfaces;
+using MS.Emails.Services;
 
 namespace MS.Emails.Respositories
 {
     public class CodigoRepository : ICodigoEmailRepository
     {
       
-       private readonly ITransientDbContextFactory<AppDbContext> _context;
+       private readonly IDbContextFactory<TransientDbContextFactory> _context;
 
-        public CodigoRepository(ITransientDbContextFactory<AppDbContext> context)
+        public CodigoRepository(IDbContextFactory<TransientDbContextFactory> context)
         {
             _context = context;
         }

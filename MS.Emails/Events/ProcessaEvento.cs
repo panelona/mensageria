@@ -20,7 +20,7 @@ namespace MS.Emails.Events
             _configuration = configuration;
         }
 
-        public async void Processa(string mensagem)
+        public async Task Processa(string mensagem)
         {
             using var scope = _scopeFactory.CreateScope();
 
@@ -35,6 +35,6 @@ namespace MS.Emails.Events
 
 
 
-        }
+         }
     }
 }
