@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  mscadastro:
+    image: edileal/msemail:1.2
+    container_name: msemail
+    ports:
+      - "6000:80"
+    environment:
+      - MS_EMAIL_CONNSTRING=${MS_EMAIL_CONNSTRING}
+      - MS_RABBITMQ_HOST=${MS_RABBITMQ_HOST}
+      - MS_RABBITMQ_PORT=${MS_RABBITMQ_PORT}
+      - MS_RABBITMQ_USER=${MS_RABBITMQ_USER}
+      - MS_RABBITMQ_PASSWORD=${MS_RABBITMQ_PASSWORD}
+      - MS_RABBITMQ_VHOST=${MS_RABBITMQ_VHOST}
+      - MS_SMTP_SERVER=${MS_SMTP_SERVER}
+      - MS_SMTP_PORT=${MS_SMTP_PORT}
+      - MS_SMTP_USERNAME=${MS_SMTP_USERNAME}
+      - MS_SMTP_PASSWORD=${MS_SMTP_PASSWORD}
+      - MS_EMAIL_URLBASE=${MS_EMAIL_URLBASE}
+    restart: unless-stopped
