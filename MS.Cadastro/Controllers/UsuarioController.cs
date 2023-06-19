@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MS.Cadastro.Contracts;
 using MS.Cadastro.Interfaces.Services;
+using MS.Cadastro.Utils;
 
 namespace MS.Cadastro.Controllers
 {
@@ -14,6 +16,8 @@ namespace MS.Cadastro.Controllers
         {
             _usuarioService = usuarioService;
         }
+
+        [Authorize(Roles = ConstanteUtil.PerfilLogadoNome)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -35,6 +39,7 @@ namespace MS.Cadastro.Controllers
             }
         }
 
+        [Authorize(Roles = ConstanteUtil.PerfilLogadoNome)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -56,6 +61,7 @@ namespace MS.Cadastro.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -95,6 +101,7 @@ namespace MS.Cadastro.Controllers
         //    }
         //}
 
+        [Authorize(Roles = ConstanteUtil.PerfilLogadoNome)]
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -117,6 +124,7 @@ namespace MS.Cadastro.Controllers
             }
         }
 
+        [Authorize(Roles = ConstanteUtil.PerfilLogadoNome)]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

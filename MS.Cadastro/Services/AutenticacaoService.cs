@@ -17,16 +17,22 @@ namespace MS.Cadastro.Services
         private DateTime? _expiracao;
         private readonly IConfiguration _configuration;
 
-        public AutenticacaoService(IUsuarioRepository usuarioRepository)
+        public AutenticacaoService(IUsuarioRepository usuarioRepository, IConfiguration configuration)
         {
             _usuarioRepository = usuarioRepository;
+            _configuration = configuration;
         }
 
         public async Task<AutenticacaoResponse> AutenticarAsync(string email, string senha)
         {
             var entity = await _usuarioRepository.FindAsync(x => x.Email.Equals(email));
+            
+            if (!entity.Status)
+            {
+                throw new ArgumentException("Usuário não confirmado!");
+            }
 
-            if (!(Criptografia.Encrypt(senha) == entity.Senha))
+            if (Criptografia.Encrypt(senha) != entity.Senha)
             {
                 throw new ArgumentException("Usuário ou senha incorreta");
             }
