@@ -39,7 +39,15 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICodigoService, CodigoService>();
 
 
-
+builder.Services.AddCors(options =>
+{
+    var corsDomains = builder.Configuration["MS_EMAIL_CORS_DOMAINS"];
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .WithOrigins(corsDomains)
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 
 var app = builder.Build();
@@ -52,6 +60,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 

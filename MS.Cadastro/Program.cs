@@ -39,9 +39,23 @@ builder.Services.AddDbContextFactory<TransientDbContextFactory>(options =>
 });
 #endregion
 
+#region CORS
+    var corsDomains = builder.Configuration["MS_CADASTRO_CORS_DOMAINS"];
+    builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .WithOrigins(corsDomains)
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+
+#endregion
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-#region Swagger autorização
+#region Swagger autorizaï¿½ï¿½o
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -91,6 +105,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 
 app.UseHttpsRedirection();
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
