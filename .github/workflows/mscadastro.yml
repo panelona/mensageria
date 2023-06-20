@@ -3,8 +3,6 @@ name: MsCadastro
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
     
 jobs:
   build:
@@ -19,15 +17,9 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       
-      - name: Set up Docker tags
-        id: meta
-        uses: crazy-max/ghaction-docker-meta@v3
-        with:
-          images: edileal/mscadastro
-      
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v4
         with:
           context: ./MS.Cadastro
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: edileal/mscadastro:${{ github.ref }}
