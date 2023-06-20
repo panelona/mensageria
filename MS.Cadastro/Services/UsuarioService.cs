@@ -6,6 +6,7 @@ using MS.Cadastro.Entity;
 using MS.Cadastro.Interfaces.Repositories;
 using MS.Cadastro.Interfaces.Services;
 using MS.Cadastro.RabbitMqClient;
+using MS.Cadastro.Shared;
 using System.Text.RegularExpressions;
 
 namespace MS.Cadastro.Services
@@ -54,6 +55,7 @@ namespace MS.Cadastro.Services
             if (request.Nome.Length < 3) throw new ArgumentException($"Nome{request.Nome} inválido.");
 
             var usuarioEntity = _mapper.Map<Usuario>(request);
+            usuarioEntity.Senha = Criptografia.Encrypt(request.Senha);
             usuarioEntity.Status = false;
             await _usuarioRepository.AddAsync(usuarioEntity);
 
