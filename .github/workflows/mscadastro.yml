@@ -3,7 +3,8 @@ name: MsCadastro
 on:
   push:
     branches: [ main ]
-    
+permissions:
+  contents: write    
 jobs:
   build:
     runs-on: ubuntu-latest
