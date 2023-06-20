@@ -5,13 +5,26 @@ VisualStudioVersion = 17.6.33717.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS.Cadastro", "MS.Cadastro\MS.Cadastro.csproj", "{932B153C-725B-45E9-A209-6222F284B209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Pedidos", "MS.Pedidos\MS.Pedidos.csproj", "{E14C25DB-F383-4040-AD7D-E42021CDA62B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS.Pedidos", "MS.Pedidos\MS.Pedidos.csproj", "{E14C25DB-F383-4040-AD7D-E42021CDA62B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Envios", "MS.Envios\MS.Envios.csproj", "{E192CFE8-C321-4FA2-9248-C0F93B35E601}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS.Envios", "MS.Envios\MS.Envios.csproj", "{E192CFE8-C321-4FA2-9248-C0F93B35E601}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Pagamentos", "MS.Pagamentos\MS.Pagamentos.csproj", "{16269250-F555-46AB-96CB-4C334091DD11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS.Pagamentos", "MS.Pagamentos\MS.Pagamentos.csproj", "{16269250-F555-46AB-96CB-4C334091DD11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MS.Emails", "MS.Emails\MS.Emails.csproj", "{60A7777A-906F-4665-8D78-CA7EEE325F55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS.Emails", "MS.Emails\MS.Emails.csproj", "{60A7777A-906F-4665-8D78-CA7EEE325F55}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{82D236A5-1DEA-4342-9EE8-5C64A1673566}"
+	ProjectSection(SolutionItems) = preProject
+		.env.example = .env.example
+		.gitignore = .gitignore
+		Docs\diagrama-sequencia-beta.jpg = Docs\diagrama-sequencia-beta.jpg
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C989DF59-A4F6-4EDD-B381-B873EC3B2890}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\diagrama-sequencia-beta.jpg = Docs\diagrama-sequencia-beta.jpg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +55,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C989DF59-A4F6-4EDD-B381-B873EC3B2890} = {82D236A5-1DEA-4342-9EE8-5C64A1673566}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C80953C5-00CC-487D-BE1D-5D8591594D8B}

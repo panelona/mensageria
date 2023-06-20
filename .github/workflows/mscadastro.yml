@@ -1,0 +1,33 @@
+name: MsCadastro
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      
+      - name: Set up Docker tags
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v3
+        with:
+          images: edileal/mscadastro
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./MS.Cadastro
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
