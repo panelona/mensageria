@@ -32,7 +32,7 @@ jobs:
         with:
           context: ./MS.Cadastro
           push: true
-          tags: 
+          tags: |
             edileal/mscadastro:${{steps.tag_version.outputs.new_tag}}
             edileal/mscadastro:latest
           
@@ -42,7 +42,7 @@ jobs:
         with:
             context: ./MS.Emails
             push: true
-            tags: 
+            tags: |
               edileal/msemail:${{steps.tag_version.outputs.new_tag}}
               edileal/msemail:latest
 
