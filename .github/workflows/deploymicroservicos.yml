@@ -45,14 +45,20 @@ jobs:
             tags: |
               edileal/msemail:${{steps.tag_version.outputs.new_tag}}
               edileal/msemail:latest
-
-      - name: Docker-Compose Remote Deployment MS.Cadastro
-        uses: alex-ac/github-action-ssh-docker-compose@master
+      - name: ssh pipeline mscadastro
+        uses: cross-the-world/ssh-pipeline@master
+        env:
+          WELCOME: "ssh docker compose up MS.Cadastro"
         with:
-          ssh_host: ${{ secrets.DEPLOY_SERVER_SSH_HOST }}
-          ssh_private_key: ${{ secrets.DEPLOY_SERVER_SSH_PRIVATE_KEY }}
-          ssh_user: ${{ secrets.DEPLOY_SERVER_SSH_USER }}
-          docker_compose_filename: mscadastro-compose.yml
-          docker_compose_prefix: mscadastro
+          host: ${{ secrets.DEPLOY_SERVER_SSH_HOST }}
+          user: ${{ secrets.DEPLOY_SERVER_SSH_USER}}
+          key: ${{ secrets.DEPLOY_SERVER_SSH_PRIVATE_KEY }}
+          port: 22
+          connect_timeout: 10s
+          script: |
+            cd /var/lib/docker-deploy  
+            docker compose -f mscadastro-compose.yml down &&
+            docker compose -f mscadastro-compose.yml up -d 
+       
 
 
