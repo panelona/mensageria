@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
+
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
@@ -35,16 +35,15 @@ jobs:
           tags: |
             edileal/mscadastro:${{steps.tag_version.outputs.new_tag}}
             edileal/mscadastro:latest
-          
 
       - name: Build and push Docker image msemail
         uses: docker/build-push-action@v4
         with:
-            context: ./MS.Emails
-            push: true
-            tags: |
-              edileal/msemail:${{steps.tag_version.outputs.new_tag}}
-              edileal/msemail:latest
+          context: ./MS.Emails
+          push: true
+          tags: |
+            edileal/msemail:${{steps.tag_version.outputs.new_tag}}
+            edileal/msemail:latest
       - name: ssh pipeline mscadastro
         uses: cross-the-world/ssh-pipeline@master
         env:
@@ -58,7 +57,18 @@ jobs:
           script: |
             cd /var/lib/docker-deploy  
             docker compose -f mscadastro-compose.yml down &&
-            docker compose -f mscadastro-compose.yml up -d 
-       
-
-
+            docker compose -f mscadastro-compose.yml up -d
+      - name: ssh pipeline msemail
+        uses: cross-the-world/ssh-pipeline@master
+        env:
+          WELCOME: "ssh docker compose up MS.Email"
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_SSH_HOST }}
+          user: ${{ secrets.DEPLOY_SERVER_SSH_USER}}
+          key: ${{ secrets.DEPLOY_SERVER_SSH_PRIVATE_KEY }}
+          port: 22
+          connect_timeout: 10s
+          script: |
+            cd /var/lib/docker-deploy  
+            docker compose -f msemail-compose.yml down &&
+            docker compose -f msemail-compose.yml up -d
