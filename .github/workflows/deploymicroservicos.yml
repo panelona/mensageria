@@ -52,8 +52,7 @@ jobs:
           ssh_host: ${{ secrets.DEPLOY_SERVER_SSH_HOST }}
           ssh_private_key: ${{ secrets.DEPLOY_SERVER_SSH_PRIVATE_KEY }}
           ssh_user: ${{ secrets.DEPLOY_SERVER_SSH_USER }}
+          docker_compose_filename: mscadastro-compose.yml
           docker_compose_prefix: mscadastro
-          docker_compose_file: mscadastro-compose.yml
-          docker_compose_down: 'true'
 
 
