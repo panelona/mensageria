@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   mscadastro:
-    image: edileal/mscadastro:1.0
+    image: edileal/mscadastro:latest
     container_name: mscadastro
     ports:
       - "5000:80"
