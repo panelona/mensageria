@@ -1,4 +1,4 @@
-name: MsCadastro
+name: DeployMicroservicos
 
 on:
   push:
@@ -28,9 +28,16 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image mscadastro
         uses: docker/build-push-action@v4
         with:
           context: ./MS.Cadastro
           push: true
           tags: edileal/mscadastro:${{steps.tag_version.outputs.new_tag}}
+
+      - name: Build and push Docker image msemail
+        uses: docker/build-push-action@v4
+        with:
+            context: ./MS.Email
+            push: true
+            tags: edileal/msemail:${{steps.tag_version.outputs.new_tag}}
