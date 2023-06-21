@@ -38,6 +38,6 @@ jobs:
       - name: Build and push Docker image msemail
         uses: docker/build-push-action@v4
         with:
-            context: ./MS.Email
+            context: ./MS.Emails
             push: true
             tags: edileal/msemail:${{steps.tag_version.outputs.new_tag}}
