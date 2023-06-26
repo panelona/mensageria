@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   msemail:
-    image: edileal/msemail:1.2
+    image: edileal/msemail:latest
     container_name: msemail
     ports:
       - "6000:80"
