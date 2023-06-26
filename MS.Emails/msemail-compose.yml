@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  mscadastro:
+  msemail:
     image: edileal/msemail:1.2
     container_name: msemail
     ports:
