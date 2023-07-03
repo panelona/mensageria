@@ -28,9 +28,9 @@ namespace MS.Cadastro.RabbitMqClient
             }.CreateConnection();
 
             _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
-            _nomeDaFila = _channel.QueueDeclare("usuarioAtivo").QueueName;
-            _channel.QueueBind(queue: _nomeDaFila, exchange: "direct", routingKey: "usuarioAtivo");
+            _channel.ExchangeDeclare(exchange: _configuration["MS_RABBITMQ_EXCHANGE"], type: _configuration["MS_RABBITMQ_EXCHANGETYPE"]);
+            _nomeDaFila = _channel.QueueDeclare(_configuration["MS_RABBITMQ_QUEUENAME"]).QueueName;
+            _channel.QueueBind(queue: _nomeDaFila, exchange: _configuration["MS_RABBITMQ_EXCHANGE"], routingKey: _configuration["MS_RABBITMQ_ROUTINGKEY"]);
         }
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
