@@ -2,7 +2,7 @@
 {
     public class Pedido
     {
-        public Guid Id { get; init; } = new Guid();
+        public Guid Id { get; set; }
         public int NumeroPedido { get; set; }
 
         public string Item { get; set; }

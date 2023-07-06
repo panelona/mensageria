@@ -16,16 +16,23 @@ namespace MS.Pedidos.Repository
 
         public async Task Post(Pedido Pedido)
         {
-            var pedidoCadastrado = _appDbContext.Add(Pedido); 
-            await _appDbContext.SaveChangesAsync();            
+            var pedidoCadastrado = _appDbContext.Add(Pedido);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<Pedido> GetById(Guid Id)
+        public async Task<Pedido> GetById(Guid id)
         {
-            var objetoEncontrado = await _appDbContext.Set<Pedido>().FindAsync(Id);
-            return objetoEncontrado;
+            try
+            {
+                var objetoEncontrado = await _appDbContext.Pedidos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                return objetoEncontrado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-           
+
         public Task<IEnumerable<PedidoDTO>> GetAll()
         {
             throw new NotImplementedException();
@@ -37,11 +44,11 @@ namespace MS.Pedidos.Repository
         }
 
         public async Task Pacth(Pedido pedidoAtualizado)
-        {            
-             _appDbContext.Pedidos.Update(pedidoAtualizado);
+        {
+            _appDbContext.Pedidos.Update(pedidoAtualizado);
             await _appDbContext.SaveChangesAsync();
         }
-    
+
         public Task Put()
         {
             throw new NotImplementedException();
