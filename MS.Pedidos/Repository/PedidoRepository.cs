@@ -22,13 +22,10 @@ namespace MS.Pedidos.Repository
 
         public async Task<Pedido> GetById(Guid Id)
         {
-            var pedidoEncontrado = await _appDbContext.Pedidos.FirstOrDefaultAsync(x => x.Id == Id); 
-            if (pedidoEncontrado == null)
-            {
-                throw new Exception("Nulooo");
-            }
-            return pedidoEncontrado;
+            var objetoEncontrado = await _appDbContext.Set<Pedido>().FindAsync(Id);
+            return objetoEncontrado;
         }
+           
         public Task<IEnumerable<PedidoDTO>> GetAll()
         {
             throw new NotImplementedException();
