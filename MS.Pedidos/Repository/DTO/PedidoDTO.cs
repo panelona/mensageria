@@ -1,8 +1,8 @@
-﻿namespace MS.Pedidos.Entities
+﻿namespace MS.Pedidos.Repository.DTO
 {
-    public class Pedido
+    public class PedidoDTO
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; } = new Guid();
         public int NumeroPedido { get; set; }
 
         public string Item { get; set; }
