@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
-var connectionString = builder.Configuration.GetValue<string>("MS_ENVIO_CONNSTRING");
+var connectionString = builder.Configuration.GetValue<string>("MS_PEDIDOS_CONNSTRING");
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 

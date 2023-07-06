@@ -12,7 +12,8 @@ namespace MS.Pedidos.Controllers
         {
             _pedidoService = pedidoService;
         }
-        
+
+        [HttpPost]
         public async Task<int> PostAsync(PedidoDTO PedidoDto)
         {
             int NumeroPedido = await _pedidoService.AddAsync(PedidoDto);
