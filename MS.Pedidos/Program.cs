@@ -28,6 +28,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+//builder.Services.AddCors(options =>
+//{
+//    var corsDomains = builder.Configuration["MS_PEDIDOS_CORS_DOMAINS"];
+//    options.AddPolicy("CorsPolicy",
+//        builder => builder
+//            .WithOrigins(corsDomains)
+//            .AllowAnyMethod()
+//            .AllowAnyHeader());
+//});
+//app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

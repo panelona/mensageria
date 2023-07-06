@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MS.Pedidos.Entities;
 using MS.Pedidos.Interfaces.Repository;
 using MS.Pedidos.Interfaces.Service;
 using MS.Pedidos.Repository.DTO;
@@ -16,20 +17,27 @@ namespace MS.Pedidos.Service
             _mapper = mapper;
         }
 
-        public Task<int> AddAsync(PedidoDTO Pedido)
+        public async Task<int> AddAsync(PedidoDTO pedido)
         {
-            throw new NotImplementedException();
+            var entidadeMapeada = _mapper.Map<Pedido>(pedido);
+            entidadeMapeada.NumeroPedido += 1;
+            entidadeMapeada.StatusPedido = StatusPedido.AGUARDANDO;
+            
+            await _repository.Post(entidadeMapeada);
+
+            return entidadeMapeada.NumeroPedido;
         }
 
+        public async Task EditAsync(StatusPedido statusNovo, Guid idPedido)
+        {
+            var pedidoEncontrado = await _repository.GetById(idPedido);
+            pedidoEncontrado.StatusPedido = statusNovo;
+            await _repository.Pacth(pedidoEncontrado);
+        }
         public Task DeleteAsync()
         {
             throw new NotImplementedException();
-        }
-
-        public Task EditAsync()
-        {
-            throw new NotImplementedException();
-        }
+        }      
 
         public Task EditItemAsync()
         {
@@ -45,5 +53,6 @@ namespace MS.Pedidos.Service
         {
             throw new NotImplementedException();
         }
+        
     }
 }

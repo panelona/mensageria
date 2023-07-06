@@ -3,6 +3,7 @@ using System;
 using MS.Pedidos.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MS.Pedidos.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706174949_MudancaAtributo")]
+    partial class MudancaAtributo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,9 +45,6 @@ namespace MS.Pedidos.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int>("NumeroPedido")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusPedido")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
