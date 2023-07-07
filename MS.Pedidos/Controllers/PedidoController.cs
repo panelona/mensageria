@@ -30,7 +30,7 @@ namespace MS.Pedidos.Controllers
         {
             try
             {
-                var status = _pedidoService.EditAsync(statusAtualizado, idPedido);
+                await _pedidoService.EditAsync(statusAtualizado, idPedido);
                 return NoContent();
             }
             catch (Exception ex)

@@ -31,9 +31,9 @@ namespace MS.Pedidos.Service
 
         public async Task EditAsync(StatusPedido statusNovo, Guid idPedido)
         {
-            var pedidoEncontrado = await _repository.GetById(idPedido);
-            pedidoEncontrado.StatusPedido = statusNovo;
-            await _repository.Pacth(pedidoEncontrado);
+            // var pedidoEncontrado = await _repository.GetById(idPedido) ?? throw new Exception("Pedido não encontrado");
+            
+            await _repository.Patch(statusNovo,idPedido);
         }
         public Task DeleteAsync()
         {

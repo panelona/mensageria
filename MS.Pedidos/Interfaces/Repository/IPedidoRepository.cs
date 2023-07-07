@@ -8,8 +8,8 @@ namespace MS.Pedidos.Interfaces.Repository
         Task Post(Pedido Pedido);
         Task Put();
         Task Remove();
-        Task Pacth();
-        Task Pacth(Pedido pedidoAtualizado);
+        Task Patch();
+        Task Patch(StatusPedido pedidoAtualizado, Guid id);
         Task<IEnumerable<PedidoDTO>> GetAll();
         Task<Pedido> GetById(Guid Id);
     }

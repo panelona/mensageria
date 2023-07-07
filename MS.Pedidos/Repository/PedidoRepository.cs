@@ -43,10 +43,26 @@ namespace MS.Pedidos.Repository
             throw new NotImplementedException();
         }
 
-        public async Task Pacth(Pedido pedidoAtualizado)
+        public async Task Patch(StatusPedido status, Guid id)
         {
-            _appDbContext.Pedidos.Update(pedidoAtualizado);
-            await _appDbContext.SaveChangesAsync();
+            try
+            {
+                var objetoEncontrado = await _appDbContext.Pedidos.FirstOrDefaultAsync(x => x.Id == id);
+
+                if (objetoEncontrado == null)
+                    throw new Exception("Pedido não encontrado");
+
+                objetoEncontrado.StatusPedido = status;
+
+                _appDbContext.Pedidos.Update(objetoEncontrado);
+                await _appDbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
 
         public Task Put()
@@ -59,7 +75,7 @@ namespace MS.Pedidos.Repository
             throw new NotImplementedException();
         }
 
-        public Task Pacth()
+        public Task Patch()
         {
             throw new NotImplementedException();
         }
