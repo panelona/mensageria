@@ -4,9 +4,14 @@ using MS.Pedidos.Entities;
 namespace MS.Pedidos.Repository
 {
     public class AppDbContext : DbContext
-    {
+    {   
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<Pedido> Pedidos { get; set; }
 
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Pedido>(new PedidoEntityMap().Configure);
+        }
     }
+   
 }
