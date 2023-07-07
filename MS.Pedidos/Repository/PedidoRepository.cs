@@ -24,7 +24,7 @@ namespace MS.Pedidos.Repository
         {
             try
             {
-                var objetoEncontrado = await _appDbContext.Pedidos.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                var objetoEncontrado = await _appDbContext.Set<Pedido>().FindAsync(id);
                 return objetoEncontrado;
             }
             catch (Exception ex)
