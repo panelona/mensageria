@@ -22,7 +22,7 @@ namespace MS.Pedidos.Service
             var entidadeMapeada = _mapper.Map<Pedido>(pedido);
             entidadeMapeada.NumeroPedido += 1;
             entidadeMapeada.StatusPedido = StatusPedido.AGUARDANDO;
-            entidadeMapeada.Id = new Guid();
+            entidadeMapeada.Id = Guid.NewGuid();
             
             await _repository.Post(entidadeMapeada);
 
