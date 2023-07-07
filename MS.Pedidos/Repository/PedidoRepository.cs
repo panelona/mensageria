@@ -43,7 +43,7 @@ namespace MS.Pedidos.Repository
             throw new NotImplementedException();
         }
 
-        public async Task Pacth(Pedido pedidoAtualizado)
+        public async Task Patch(Pedido pedidoAtualizado)
         {
             _appDbContext.Pedidos.Update(pedidoAtualizado);
             await _appDbContext.SaveChangesAsync();

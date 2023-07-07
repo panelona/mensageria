@@ -33,7 +33,7 @@ namespace MS.Pedidos.Service
         {
             var pedidoEncontrado = await _repository.GetById(idPedido);
             pedidoEncontrado.StatusPedido = statusNovo;
-            await _repository.Pacth(pedidoEncontrado);
+            await _repository.Patch(pedidoEncontrado);
         }
         public Task DeleteAsync()
         {

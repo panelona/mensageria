@@ -26,7 +26,7 @@ namespace MS.Pedidos.Controllers
 
         [HttpPatch]
         [Route("api/v1/pedido")]
-        public async Task<IActionResult> PacthStatusPedido(StatusPedido statusAtualizado, Guid idPedido)
+        public async Task<IActionResult> PatchStatusPedido(StatusPedido statusAtualizado, Guid idPedido)
         {
             try
             {
