@@ -59,7 +59,7 @@ namespace MS.Pedidos.Repository
             throw new NotImplementedException();
         }
 
-        public Task Pacth()
+        public Task Patch()
         {
             throw new NotImplementedException();
         }
