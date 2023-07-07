@@ -4,7 +4,7 @@ using MS.Pedidos.Entities;
 
 namespace MS.Pedidos.Repository
 {
-    public class PedidoEntityMap
+    public class PedidoEntityMap : IEntityTypeConfiguration<Pedido>
     {
         public void Configure(EntityTypeBuilder<Pedido> builder)
         {                

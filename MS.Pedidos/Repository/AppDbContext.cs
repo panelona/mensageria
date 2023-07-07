@@ -10,7 +10,8 @@ namespace MS.Pedidos.Repository
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Pedido>(new PedidoEntityMap().Configure);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new PedidoEntityMap());
         }
     }
    
