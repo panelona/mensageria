@@ -1,6 +1,8 @@
 ﻿using MS.Pedidos.Interfaces;
 using MS.Pedidos.Repository.DTO;
 using RabbitMQ.Client;
+using System.Text.Json;
+using System.Text;
 
 namespace MS.Pedidos.RabbitMq
 {
@@ -28,12 +30,26 @@ namespace MS.Pedidos.RabbitMq
 
         public void EnviaParaEnvios(PedidoEnvio pedido)
         {
-            throw new NotImplementedException();
+            string msg = JsonSerializer.Serialize(pedido);
+            var body = Encoding.UTF8.GetBytes(msg);
+
+            _channel.BasicPublish(exchange: "direct",
+                routingKey: "pedido",
+                basicProperties: null,
+                body: body
+                );
         }
 
         public void EnviaParaPagamento(PedidoPagamento pedido)
         {
-            throw new NotImplementedException();
+            string msg = JsonSerializer.Serialize(pedido);
+            var body = Encoding.UTF8.GetBytes(msg);
+
+            _channel.BasicPublish(exchange: "direct",
+                routingKey: "pedido",
+                basicProperties: null,
+                body: body
+                );
         }
     }
 }
