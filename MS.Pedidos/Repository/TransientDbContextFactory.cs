@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MS.Pedidos.Entities;
 
 namespace MS.Pedidos.Repository
@@ -7,11 +8,11 @@ namespace MS.Pedidos.Repository
     {
         public TransientDbContextFactory(DbContextOptions<TransientDbContextFactory> options) : base(options) { }
         public DbSet<Pedido> Pedidos { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new PedidoEntityMap());
         }
+
     }
 }

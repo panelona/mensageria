@@ -7,7 +7,8 @@ namespace MS.Pedidos.Repository
     public class PedidoEntityMap : IEntityTypeConfiguration<Pedido>
     {
         public void Configure(EntityTypeBuilder<Pedido> builder)
-        {                
+        {
         }
     }
+
 }

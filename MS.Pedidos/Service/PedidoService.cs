@@ -39,7 +39,7 @@ namespace MS.Pedidos.Service
         public async Task EditAsync(PedidoAtualizaStatusDTO atualizaStatus)
         {
             var pedidoEncontrado = await _repository.GetByEmail(atualizaStatus.EmailCliente);
-            pedidoEncontrado.StatusPedido = atualizaStatus.statusNovo;
+            pedidoEncontrado.StatusPedido = atualizaStatus.StatusPedido;
             await _repository.Patch(pedidoEncontrado);
             var pagamento = _mapper.Map<PedidoPagamento>(atualizaStatus);
             var envio = _mapper.Map<PedidoEnvio>(atualizaStatus);
