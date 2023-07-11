@@ -20,6 +20,7 @@ builder.Services.AddHostedService<RabbitMqSubscriber>();
 builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 var connectionString = builder.Configuration.GetValue<string>("MS_PEDIDOS_CONNSTRING");
 builder.Services.AddDbContextFactory<TransientDbContextFactory>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

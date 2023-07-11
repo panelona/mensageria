@@ -15,6 +15,7 @@ namespace MS.Pedidos.RabbitMq
 
         public RabbitMqClient(IConfiguration configuration)
         {
+            _configuration = configuration;
             _connection = new ConnectionFactory()
             {
                 HostName = _configuration["MS_RABBITMQ_HOST"],
@@ -22,8 +23,7 @@ namespace MS.Pedidos.RabbitMq
                 VirtualHost = _configuration["MS_RABBITMQ_VHOST"],
                 UserName = _configuration["MS_RABBITMQ_USER"],
                 Password = _configuration["MS_RABBITMQ_PASSWORD"]
-            }.CreateConnection();
-            _configuration = configuration;
+            }.CreateConnection();            
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
         }
@@ -34,7 +34,7 @@ namespace MS.Pedidos.RabbitMq
             var body = Encoding.UTF8.GetBytes(msg);
 
             _channel.BasicPublish(exchange: "direct",
-                routingKey: "pedido",
+                routingKey: "envioDebug",
                 basicProperties: null,
                 body: body
                 );
@@ -46,7 +46,7 @@ namespace MS.Pedidos.RabbitMq
             var body = Encoding.UTF8.GetBytes(msg);
 
             _channel.BasicPublish(exchange: "direct",
-                routingKey: "pedido",
+                routingKey: "pagamentoDebug",
                 basicProperties: null,
                 body: body
                 );

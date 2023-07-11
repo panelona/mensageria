@@ -9,6 +9,12 @@ namespace MS.Pedidos.Repository.Profilles
         public PedidoProfille()
         {
             CreateMap<Pedido, PedidoDTO>().ReverseMap();
+            CreateMap<PedidoDTO, PedidoAtualizaStatusDTO>().ReverseMap();
+            CreateMap<PedidoDTO, PedidoEnvio>().ReverseMap();
+            CreateMap<PedidoDTO, PedidoPagamento>().ReverseMap();
+            CreateMap<Pedido, PedidoEnvio>().ReverseMap();
+            CreateMap<Pedido, PedidoPagamento>().ReverseMap();
+
         }
     }
 }
