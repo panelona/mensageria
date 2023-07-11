@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MS.Pedidos.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20230706174949_MudancaAtributo")]
-    partial class MudancaAtributo
+    [DbContext(typeof(TransientDbContextFactory))]
+    [Migration("20230711142003_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace MS.Pedidos.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int>("NumeroPedido")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusPedido")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

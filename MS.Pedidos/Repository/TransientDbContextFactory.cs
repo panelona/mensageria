@@ -3,9 +3,9 @@ using MS.Pedidos.Entities;
 
 namespace MS.Pedidos.Repository
 {
-    public class AppDbContext : DbContext
-    {   
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public class TransientDbContextFactory : DbContext
+    {
+        public TransientDbContextFactory(DbContextOptions<TransientDbContextFactory> options) : base(options) { }
         public DbSet<Pedido> Pedidos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -14,5 +14,4 @@ namespace MS.Pedidos.Repository
             modelBuilder.ApplyConfiguration(new PedidoEntityMap());
         }
     }
-   
 }

@@ -7,9 +7,9 @@ namespace MS.Pedidos.Repository
 {
     public class PedidoRepository : IPedidoRepository
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly TransientDbContextFactory _appDbContext;
 
-        public PedidoRepository(AppDbContext appDbContext)
+        public PedidoRepository(TransientDbContextFactory appDbContext)
         {
             _appDbContext = appDbContext;
         }
