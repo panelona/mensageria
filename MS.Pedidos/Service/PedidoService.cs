@@ -29,10 +29,10 @@ namespace MS.Pedidos.Service
             return entidadeMapeada.NumeroPedido;
         }
 
-        public async Task EditAsync(StatusPedido statusNovo, Guid idPedido)
+        public async Task EditAsync(PedidoAtualizaStatusDTO atualizaStatus)
         {
-            var pedidoEncontrado = await _repository.GetById(idPedido);
-            pedidoEncontrado.StatusPedido = statusNovo;
+            var pedidoEncontrado = await _repository.GetByEmail(atualizaStatus.EmailCliente);
+            pedidoEncontrado.StatusPedido = atualizaStatus.statusNovo;
             await _repository.Patch(pedidoEncontrado);
         }
         public Task DeleteAsync()

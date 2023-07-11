@@ -7,7 +7,7 @@ namespace MS.Pedidos.Interfaces.Service
     {
         Task<int> AddAsync(PedidoDTO Pedido);        
         Task DeleteAsync();
-        Task EditAsync(StatusPedido statusNovo, Guid idPedido);
+        Task EditAsync(PedidoAtualizaStatusDTO atualizaStatus);
         Task<PedidoDTO> ReadPedidoAsync();
         Task<IEnumerable<PedidoDTO>> ReadAllAsync();
     }

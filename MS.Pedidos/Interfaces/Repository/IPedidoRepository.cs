@@ -9,6 +9,7 @@ namespace MS.Pedidos.Interfaces.Repository
         Task Put();
         Task Remove();
         Task Patch();
+        Task<Pedido> GetByEmail(string emailCliente);
         Task Patch(Pedido pedidoAtualizado);
         Task<IEnumerable<PedidoDTO>> GetAll();
         Task<Pedido> GetById(Guid Id);
