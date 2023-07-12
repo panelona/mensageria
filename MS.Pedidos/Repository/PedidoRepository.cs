@@ -7,9 +7,9 @@ namespace MS.Pedidos.Repository
 {
     public class PedidoRepository : IPedidoRepository
     {
-        private readonly AppDbContext _appDbContext;
+        private readonly TransientDbContextFactory _appDbContext;
 
-        public PedidoRepository(AppDbContext appDbContext)
+        public PedidoRepository(TransientDbContextFactory appDbContext)
         {
             _appDbContext = appDbContext;
         }
@@ -32,7 +32,11 @@ namespace MS.Pedidos.Repository
                 throw new Exception(ex.Message);
             }
         }
-
+        public async Task<Pedido> GetByEmail(string emailCliente)
+        {
+            var objetoEncontrado = await _appDbContext.Set<Pedido>().FirstOrDefaultAsync(x => x.EmailCliente == emailCliente);
+            return objetoEncontrado; 
+        }
         public Task<IEnumerable<PedidoDTO>> GetAll()
         {
             throw new NotImplementedException();
@@ -62,6 +66,6 @@ namespace MS.Pedidos.Repository
         public Task Patch()
         {
             throw new NotImplementedException();
-        }
+        }       
     }
 }

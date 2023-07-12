@@ -3,19 +3,16 @@ using System;
 using MS.Pedidos.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
 namespace MS.Pedidos.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20230706173806_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(TransientDbContextFactory))]
+    partial class TransientDbContextFactoryModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +42,9 @@ namespace MS.Pedidos.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<int>("NumeroPedido")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusPedido")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

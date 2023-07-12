@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MS.Pedidos.Events;
+using MS.Pedidos.Interfaces;
 using MS.Pedidos.Interfaces.Repository;
 using MS.Pedidos.Interfaces.Service;
+using MS.Pedidos.RabbitMq;
 using MS.Pedidos.Repository;
 using MS.Pedidos.Service;
 
@@ -13,10 +16,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddHostedService<RabbitMqSubscriber>();
+builder.Services.AddSingleton<IProcessaEvento, ProcessaEvento>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
+builder.Services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
 var connectionString = builder.Configuration.GetValue<string>("MS_PEDIDOS_CONNSTRING");
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContextFactory<TransientDbContextFactory>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 
 var app = builder.Build();

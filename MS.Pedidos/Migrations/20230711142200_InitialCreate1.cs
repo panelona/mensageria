@@ -5,7 +5,7 @@
 namespace MS.Pedidos.Migrations
 {
     /// <inheritdoc />
-    public partial class MudancaAtributo : Migration
+    public partial class InitialCreate1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -26,11 +26,11 @@ namespace MS.Pedidos.Controllers
 
         [HttpPatch]
         [Route("api/v1/pedido")]
-        public async Task<IActionResult> PatchStatusPedido(StatusPedido statusAtualizado, Guid idPedido)
+        public async Task<IActionResult> PatchStatusPedido(PedidoAtualizaStatusDTO pedido)
         {
             try
             {
-                await _pedidoService.EditAsync(statusAtualizado, idPedido);
+                await _pedidoService.EditAsync(pedido);
                 return NoContent();
             }
             catch (Exception ex)
