@@ -28,7 +28,7 @@ namespace MS.Pedidos.RabbitMq
 
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange: "direct", type: ExchangeType.Direct);
-            _nomeFila = _channel.QueueDeclare(_configuration["MS_RABBITMQ_QUEUENAME"]).QueueName;
+            _nomeFila = _channel.QueueDeclare(_configuration["MS_RABBITMQ_PEDIDO_QUEUENAME"]).QueueName;
             _channel.QueueBind(queue: _nomeFila, exchange: "direct", routingKey: "pedidoDebug");
         }
 
