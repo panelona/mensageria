@@ -2,6 +2,8 @@
 {
     public interface IProcessaEvento
     {
-        Task Processa(string mensagem);
+        Task EnviaEmailConfirmacao(string mensagem);
+        Task EnviaEmailPedidoRealizado(string mensagem);
+        Task EnviaEmailStatusPagamento(string mensagem);
     }
 }

@@ -20,7 +20,7 @@ namespace MS.Emails.Events
             _configuration = configuration;
         }
 
-        public async Task Processa(string mensagem)
+        public async Task EnviaEmailConfirmacao(string mensagem)
         {
             using var scope = _scopeFactory.CreateScope();
 
@@ -29,12 +29,25 @@ namespace MS.Emails.Events
             
             var mensagemResponse = JsonSerializer.Deserialize<EmailRequestDto>(mensagem);
 
-            if(mensagemResponse != null)
-                await service.GerarCodigoConfirmacaoAsync(mensagemResponse);
+            if (mensagemResponse.Email == null)
+                throw new Exception("Email não informado");
+            
+            
+            await service.GerarCodigoConfirmacaoAsync(mensagemResponse);
             
 
 
 
          }
+
+        public Task EnviaEmailPedidoRealizado(string mensagem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task EnviaEmailStatusPagamento(string mensagem)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
