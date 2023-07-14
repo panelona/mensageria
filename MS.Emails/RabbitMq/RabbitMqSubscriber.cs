@@ -9,7 +9,9 @@ namespace MS.Emails.RabbitMq
     {
         private readonly IConfiguration _configuration;
         private readonly IConnection _connection;
-        private readonly string _queueName;
+        private readonly string _queueCadastro;
+        private readonly string _queuePedido;
+        private readonly string _queuePagamento;
         private IModel _channel;
         private IProcessaEvento _processaEvento;
 
@@ -30,8 +32,14 @@ namespace MS.Emails.RabbitMq
 
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(exchange:"direct",type: ExchangeType.Direct);
-            _queueName = _channel.QueueDeclare("email").QueueName;
-            _channel.QueueBind(queue:_queueName,exchange:"direct",routingKey:"email");
+            _queueCadastro = _channel.QueueDeclare("emailRecebeCadastro").QueueName;
+            _queuePedido = _channel.QueueDeclare("emailRecebePedido").QueueName;
+            _queuePagamento = _channel.QueueDeclare("emailRecebePagamento").QueueName;
+
+            _channel.QueueBind(queue:_queueCadastro,exchange:"direct",routingKey:"cadastro-email");
+            _channel.QueueBind(queue: _queuePedido, exchange: "direct", routingKey: "pedido-email");
+            _channel.QueueBind(queue: _queuePagamento, exchange: "direct", routingKey: "pagamento-email");
+
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -40,14 +48,34 @@ namespace MS.Emails.RabbitMq
            consumidor.Received += (ch, ea) =>
            {
                 var conteudo = Encoding.UTF8.GetString(ea.Body.ToArray());
+                var routingKey = ea.RoutingKey;
 
-                _processaEvento.Processa(conteudo);
+                switch (routingKey)
+                {
+                   case "emailRecebeCadastro": 
+                       _processaEvento.EnviaEmailConfirmacao(conteudo);
+                       break;
+                   case "EmailRecebePedido":
+                      _processaEvento.EnviaEmailPedidoRealizado(conteudo);
+                      break;
+                   case "EmailRecebePagamento":
+                      _processaEvento.EnviaEmailStatusPagamento(conteudo);
+                      break;
+                   default:
+                      Console.WriteLine("A routekey não é valida");
+                      break;
+                }
+
 
            };
 
-           _channel.BasicConsume(queue:_queueName,autoAck:true,consumer:consumidor);
+           _channel.BasicConsume(queue:_queueCadastro,autoAck:true,consumer:consumidor);
 
-           return Task.CompletedTask;
+           _channel.BasicConsume(queue: _queuePedido, autoAck: true, consumer: consumidor);
+
+           _channel.BasicConsume(queue: _queuePagamento, autoAck: true, consumer: consumidor);
+
+            return Task.CompletedTask;
 
         }
     }
