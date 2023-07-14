@@ -3,6 +3,7 @@ using System.Net;
 using System.Security.Cryptography;
 using AutoMapper;
 using MS.Emails.Entities;
+using MS.Emails.Enum;
 using MS.Emails.Interfaces;
 using MS.Emails.Respositories.Dto;
 
@@ -53,16 +54,48 @@ namespace MS.Emails.Services
                 email,
                 "Confirmação de e-mail",
                 $"<p>Seu código de confirmação é: <strong>{linkConfirmacao}</strong></p>",
-                "dev@wilsonsantos.com.br",
-                "Microsserviço de mensageria");
+                _configuration["MS_EMAIL_FROM"],
+                _configuration["MS_EMAIL_FROMNAME"]);
         }
 
-        
+        public async Task EnviarEmailPedidoAsync(string email, string numeroPedido, string linkPedido)
+        {
+            if (email == null) throw new ArgumentNullException(nameof(email));
+            if (numeroPedido == null) throw new ArgumentNullException(nameof(numeroPedido));
+            if (linkPedido == null) throw new ArgumentNullException(nameof(linkPedido));
+
+            await EnviarEmailAsync(
+                email,
+                "Confirmação de e-mail",
+                $"<p>Seu pedido <strong>{numeroPedido}</strong> foi realizado com sucesso.<br/> Acompanhe o status do seu pedido  <a href='{linkPedido}'>aqui</a></p>",
+                _configuration["MS_EMAIL_FROM"],
+                _configuration["MS_EMAIL_FROMNAME"]);
+        }
+
+        public async Task EnviarEmailStatusPagamentoAsync(string email, EnumStatus status)
+        {
+            if (email == null) throw new ArgumentNullException(nameof(email));
+
+            var body = string.Empty;
+
+            if(status == EnumStatus.PagamentoAutorizado)
+                body = $"<p>Seu pagamento foi <strong>Autorizado</strong> já começamos a separar seus produtos</p>";
+            else if (status == EnumStatus.PagamentoRecusado)
+                body = $"<p>Infelizemente seu pagamento foi <strong>recusado</strong></p>";
+            else
+                throw new ArgumentException("Status de pagamento inválido");
+
+            await EnviarEmailAsync(
+                  email,
+                  "Confirmação de e-mail",
+                  body,
+                  _configuration["MS_EMAIL_FROM"],
+                  _configuration["MS_EMAIL_FROMNAME"]);
+        }
+
 
         public async Task<bool> EnviarEmailAsync(string toEmail, string subject, string body, string fromEmail, string fromName)
         {
-            
-
             var smtpClient = new SmtpClient(
                  _configuration["MS_SMTP_SERVER"], 
                 int.Parse(_configuration["MS_SMTP_PORT"])
