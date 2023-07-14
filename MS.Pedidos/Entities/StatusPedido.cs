@@ -2,10 +2,11 @@
 {
     public enum StatusPedido
     {
+        APROVADO,
         CRIADO,
         AGUARDANDO,
         AUTORIZADO,
-        NEGADO,
+        REPROVADO,
         CONCLUIDO
     }
 }
