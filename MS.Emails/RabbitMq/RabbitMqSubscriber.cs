@@ -12,6 +12,7 @@ namespace MS.Emails.RabbitMq
         private readonly string _queueCadastro;
         private readonly string _queuePedido;
         private readonly string _queuePagamento;
+        private readonly string _exchangeName;
         private IModel _channel;
         private IProcessaEvento _processaEvento;
 
@@ -30,15 +31,19 @@ namespace MS.Emails.RabbitMq
                
             }.CreateConnection();
 
-            _channel = _connection.CreateModel();
-            _channel.ExchangeDeclare(exchange:"direct",type: ExchangeType.Direct);
-            _queueCadastro = _channel.QueueDeclare("emailRecebeCadastro").QueueName;
-            _queuePedido = _channel.QueueDeclare("emailRecebePedido").QueueName;
-            _queuePagamento = _channel.QueueDeclare("emailRecebePagamento").QueueName;
+            _exchangeName = _configuration["MS_RABBITMQ_EXCHANGE"];
 
-            _channel.QueueBind(queue:_queueCadastro,exchange:"direct",routingKey:"cadastro-email");
-            _channel.QueueBind(queue: _queuePedido, exchange: "direct", routingKey: "pedido-email");
-            _channel.QueueBind(queue: _queuePagamento, exchange: "direct", routingKey: "pagamento-email");
+            _channel = _connection.CreateModel();
+            _channel.ExchangeDeclare(exchange:_exchangeName,type: _configuration["MS_RABBITMQ_EXCHANGETYPE"]);
+
+            _queueCadastro = _channel.QueueDeclare(_configuration["MS_EMAIL_QUEUE_CADASTRO"]).QueueName;
+            _queuePedido = _channel.QueueDeclare(_configuration["MS_EMAIL_QUEUE_PEDIDO"]).QueueName;
+            _queuePagamento = _channel.QueueDeclare(_configuration["MS_EMAIL_QUEUE_PAGAMENTO"]).QueueName;
+
+
+            _channel.QueueBind(queue: _queueCadastro, exchange: _exchangeName, routingKey: "cadastro-email");
+            _channel.QueueBind(queue: _queuePedido, exchange:_exchangeName, routingKey: "pedido-email");
+            _channel.QueueBind(queue: _queuePagamento, exchange:_exchangeName, routingKey: "pagamento-email");
 
         }
 
@@ -50,15 +55,17 @@ namespace MS.Emails.RabbitMq
                 var conteudo = Encoding.UTF8.GetString(ea.Body.ToArray());
                 var routingKey = ea.RoutingKey;
 
+                
+
                 switch (routingKey)
                 {
-                   case "emailRecebeCadastro": 
+                   case "cadastro-email": 
                        _processaEvento.EnviaEmailConfirmacao(conteudo);
                        break;
-                   case "EmailRecebePedido":
+                   case "pedido-email":
                       _processaEvento.EnviaEmailPedidoRealizado(conteudo);
                       break;
-                   case "EmailRecebePagamento":
+                   case "pagamento-email":
                       _processaEvento.EnviaEmailStatusPagamento(conteudo);
                       break;
                    default:
